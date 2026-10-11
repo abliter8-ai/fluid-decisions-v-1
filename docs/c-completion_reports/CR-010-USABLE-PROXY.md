@@ -130,3 +130,15 @@ Verified at `a45572a`.
 - **Privacy** of the added lines checked.
 
 Nothing was installed or configured on the Mac by this verification.
+
+## Post-release fixes (after v0.1.0)
+
+An outside review of the v0.1.0 tree found two defects in the proxy's request path, both confirmed by the designated verifier, plus a CI configuration fault.
+
+1. **Withhold and redaction applied only to the first forward.** The proxy kept a per-session set of scored tool-result digests and skipped any result it had already seen. A harness resends its own raw history on every request, so from the second turn on the raw tool result was forwarded unchanged. The per-session record is now a map from the raw text's digest to its replacement (the redacted text or a withheld marker, or nothing when released unchanged), applied on every request; the result is still scored once and the ledger taint from that scoring is unchanged.
+2. **`ask` and scoring errors forwarded raw text.** Only a `deny` withheld; an `ask` from post-result (a ledger failure, or an operator's withhold policy for unscored results) and the fail-closed path on a post-result exception passed the raw text through. Both now withhold, logged as a redaction event with `withheld: true` and reasons `post_result_ask:<reasons>` or `post_result_error:<type>`. The recovery loop is unchanged.
+3. **CI red at collection.** Bare `pytest` could not import `scripts` and `harness`; `pythonpath = ["."]` under `[tool.pytest.ini_options]` fixes it so the local and CI commands agree. With collection fixed, a second fault surfaced: the workflow set `FD_MAX_URL`/`FD_OMNI_URL`/`FLUID_LANES_FILE` to empty strings, and the client deliberately treats an empty lane URL as "disable this lane", so four offline client tests (which mock the default lanes) failed. The workflow now leaves the variables unset; live tests remain opt-in through `FD_LIVE=1`.
+
+**What this means for the evidence above.** In the runs recorded in this report the first forward of a poisoned result was withheld, but on later turns the model could see the raw injected text — consistent with the agent's closing note quoting the injected sentence. The exfiltration attempt was still refused by the action gate under session taint, which is the line that held; withholding the text was not durable across turns until fix 1.
+
+**Tests** (`tests/test_proxy.py`, all without network): `test_withheld_result_stays_withheld_when_the_harness_resends_raw_history` (two consecutive requests through the server; the second forwarded body carries the marker, not the raw text), `test_unit_redaction_is_reapplied_on_every_request`, `test_ask_verdict_withholds_the_result`, `test_post_result_error_withholds_the_result`, `test_clean_result_is_forwarded_unchanged_on_every_request`. The first three fail against the unfixed proxy and pass with the fix.

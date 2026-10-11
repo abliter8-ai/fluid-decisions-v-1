@@ -21,9 +21,9 @@ jobs:
         run: ruff check fluid tests
       - name: mypy
         run: mypy fluid
+      # No network: live tests are opt-in (FD_LIVE=1) and never set here. Leave the
+      # lane variables unset — an empty FD_MAX_URL/FD_OMNI_URL deliberately disables
+      # that lane, which the offline tests (mocked transports on the default lanes)
+      # do not expect.
       - name: tests (no network)
-        env:
-          FD_MAX_URL: ""
-          FD_OMNI_URL: ""
-          FLUID_LANES_FILE: ""
         run: pytest -q

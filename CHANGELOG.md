@@ -4,6 +4,25 @@ All notable changes to this project are documented here. This project is pre-1.0
 the policy thresholds are **uncalibrated** and marked so in the packs until an audit
 log of real sessions exists to calibrate them.
 
+## Unreleased
+
+### Fixed
+- **`fluid proxy` forwarded raw injected text after the first turn.** A harness
+  resends its own raw history on every request; the proxy remembered which tool
+  results it had scored but skipped them on later requests, so a redaction or
+  withhold applied only to the first forward. The per-session record now maps
+  each result to its replacement and substitutes it on every request.
+- **`fluid proxy` forwarded raw text on an `ask` or a scoring error.** Only a
+  `deny` withheld a tool result; an `ask` from post-result (a ledger failure, or
+  an operator's withhold policy for unscored results) and the fail-closed path on
+  a post-result exception both passed the raw text through. Both now withhold,
+  with reasons `post_result_ask:<reasons>` and `post_result_error:<type>`.
+- **CI failed at test collection on every push.** Bare `pytest` could not import
+  `scripts` and `harness`; `pythonpath = ["."]` in the pytest configuration makes
+  `pytest` and `python -m pytest` agree. Behind that, the workflow set the lane
+  variables to empty strings, which the client treats as "disable this lane", so
+  four offline client tests failed; the workflow now leaves them unset.
+
 ## v0.1.0 — 2026-10-11
 
 First tagged release: a client, a policy layer and adapters in front of two d1

@@ -133,7 +133,7 @@ TEST_API_ENDPOINT=<gateway-base-url> TEST_API_KEY=<key> FD_MAX_URL=<d1-text-lane
 # point any OpenAI-compatible harness at http://127.0.0.1:8765/v1 with any key
 ```
 
-The proxy forwards each request to the upstream gateway (`TEST_API_ENDPOINT`/`TEST_API_KEY`) and applies the guard on the way through, scoring against the d1 text lane (`FD_MAX_URL`): it checks every tool **result** with post-result (redacting a confirmed injected instruction, withholding a flagged one) and gates every returned tool **call**, removing a refused one and letting the agent recover. It binds loopback only. For [OpenCode](https://opencode.ai), the provider stanza is:
+The proxy forwards each request to the upstream gateway (`TEST_API_ENDPOINT`/`TEST_API_KEY`) and applies the guard on the way through, scoring against the d1 text lane (`FD_MAX_URL`): it checks every tool **result** with post-result (redacting a confirmed injected instruction; withholding a result that is denied, left at ask, or could not be scored because of an error) and gates every returned tool **call**, removing a refused one and letting the agent recover. Because a harness resends its own raw history on every turn, each result is scored once and its redaction or withhold is substituted on every later request, so the raw text never reaches the model after the first turn either. It binds loopback only. For [OpenCode](https://opencode.ai), the provider stanza is:
 
 ```json
 {

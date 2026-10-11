@@ -5,10 +5,14 @@ Loopback only. The harness points at the proxy as its model endpoint and talks t
 it exactly as it would to the gateway. The proxy forwards to the gateway and
 applies the guard on the way through:
 
-- request path (harness -> proxy -> gateway): every unseen ``role: tool`` message
-  is checked by ``Decisions.post_result``; a confirmed unit is replaced by its
-  redacted text, a withheld result by a fixed marker, before the request is
-  forwarded.
+- request path (harness -> proxy -> gateway): each ``role: tool`` message is
+  checked by ``Decisions.post_result`` the first time its content is seen; a
+  confirmed unit is replaced by its redacted text, and a withheld result (a
+  ``deny``, an ``ask`` — including an operator's withhold policy for unscored
+  results — or a post_result error) by a fixed marker. The harness resends its own
+  raw history on every request, so the decision is remembered per session by the
+  digest of the raw text and substituted on every later request, not only the
+  first.
 - response path (gateway -> proxy -> harness): every ``tool_call`` the model
   returns is checked by ``Decisions.gate``; an ``ask`` or ``deny`` call is removed
   and a refusal note is appended to the assistant content.
@@ -77,33 +81,57 @@ def _tool_name(messages: list[dict[str, Any]], tool_call_id: Any) -> str:
     return ""
 
 
+def _result_replacement(content: str, name: str, decisions: Any, session_id: str,
+                        user_request: str, log: Callable[[dict[str, Any]], None]) -> str | None:
+    """Score one tool result and return what to forward in its place: the redacted
+    text, a withheld marker, or None to forward it unchanged. Fail closed: a
+    ``deny``, an ``ask`` (ledger failure, or an operator's withhold policy for an
+    unscored result) and a post_result error all withhold."""
+    try:
+        post = decisions.post_result(content, session_id=session_id,
+                                     tool_name=name, user_request=user_request)
+    except Exception as exc:
+        reason = f"post_result_error:{type(exc).__name__}"
+        log({"event": "redaction", "session": session_id, "tool": name,
+             "withheld": True, "reason": reason})
+        return f"[withheld by fluid: {reason}]"
+    if isinstance(post.get("redacted_text"), str) and post.get("units_redacted"):
+        log({"event": "redaction", "session": session_id, "tool": name,
+             "units_redacted": post.get("units_redacted")})
+        return str(post["redacted_text"])
+    verdict = post.get("verdict")
+    if verdict in ("deny", "ask"):
+        reasons = ",".join(str(r) for r in post.get("reasons", [])) or str(verdict)
+        reason = reasons if verdict == "deny" else f"post_result_ask:{reasons}"
+        log({"event": "redaction", "session": session_id, "tool": name,
+             "withheld": True, "reason": reason})
+        return f"[withheld by fluid: {reason}]"
+    return None
+
+
 def apply_request_guard(messages: list[dict[str, Any]], decisions: Any, session_id: str,
-                        seen: set[str], user_request: str,
+                        seen: dict[str, str | None], user_request: str,
                         log: Callable[[dict[str, Any]], None] = _log_stderr) -> list[dict[str, Any]]:
-    """Check each unseen tool-result message and redact or withhold it in place.
-    The per-session seen-set stops a result being re-scored on later turns."""
+    """Redact or withhold tool-result messages on every request.
+
+    The harness resends its own raw history each turn, so a decision has to be
+    re-applied every time, not only on the first forward. ``seen`` maps the sha256
+    of a result's raw text to its replacement (redacted text or a withheld marker),
+    or to None when it is released unchanged: a result is scored by post_result
+    once, and its replacement is substituted on every later request. The ledger
+    taint from that single scoring is unchanged."""
     out: list[dict[str, Any]] = []
     for message in messages:
         if isinstance(message, dict) and message.get("role") == "tool":
             content = _text(message.get("content"))
             digest = hashlib.sha256(content.encode()).hexdigest()
             if digest not in seen:
-                seen.add(digest)
                 name = _tool_name(messages, message.get("tool_call_id"))
-                try:
-                    post = decisions.post_result(content, session_id=session_id,
-                                                 tool_name=name, user_request=user_request)
-                except Exception as exc:  # fail closed: surface, do not pass raw
-                    post = {"verdict": "ask", "reasons": [f"post_result_error:{type(exc).__name__}"]}
-                if isinstance(post.get("redacted_text"), str) and post.get("units_redacted"):
-                    message = {**message, "content": post["redacted_text"]}
-                    log({"event": "redaction", "session": session_id, "tool": name,
-                         "units_redacted": post.get("units_redacted")})
-                elif post.get("verdict") == "deny":
-                    reason = ",".join(str(r) for r in post.get("reasons", [])) or "deny"
-                    message = {**message, "content": f"[withheld by fluid: {reason}]"}
-                    log({"event": "redaction", "session": session_id, "tool": name,
-                         "withheld": True, "reason": reason})
+                seen[digest] = _result_replacement(content, name, decisions, session_id,
+                                                   user_request, log)
+            replacement = seen[digest]
+            if replacement is not None:
+                message = {**message, "content": replacement}
         out.append(message)
     return out
 
@@ -360,7 +388,8 @@ class ProxyServer(ThreadingHTTPServer):
         self.log_args = log_args
         self.workdir = workdir  # passed to the gate as cwd for file-ownership facts (IP-011)
         self.client = httpx.Client(timeout=httpx.Timeout(120.0))
-        self._seen: dict[str, set[str]] = {}
+        # per session: raw tool-result digest -> replacement text, or None if unchanged
+        self._seen: dict[str, dict[str, str | None]] = {}
 
     def auth_headers(self) -> dict[str, str]:
         headers = {"Content-Type": "application/json"}
@@ -392,7 +421,7 @@ class ProxyServer(ThreadingHTTPServer):
         messages: list[dict[str, Any]] = raw_messages if isinstance(raw_messages, list) else []
         session_id = session_id_for(messages, handler.headers.get("X-Fluid-Session"))
         user_request = last_user_request(messages)
-        seen = self._seen.setdefault(session_id, set())
+        seen = self._seen.setdefault(session_id, {})
         guarded_messages = apply_request_guard(messages, self.decisions, session_id, seen, user_request, self.log)
         body = {**body, "messages": guarded_messages}
         stream = bool(body.get("stream"))
@@ -411,7 +440,7 @@ class ProxyServer(ThreadingHTTPServer):
             handler._send(200, json.dumps(response, ensure_ascii=False).encode(), "application/json")
 
     def _guarded_exchange(self, body: dict[str, Any], messages: list[dict[str, Any]], session_id: str,
-                          user_request: str, seen: set[str], stream: bool) -> tuple[int, Any]:
+                          user_request: str, seen: dict[str, str | None], stream: bool) -> tuple[int, Any]:
         """Forward, gate the returned tool calls, and — when any are refused — loop:
         hand the model synthetic tool results for the refused calls and ask again,
         up to max_refusals, so the harness can recover instead of stopping. The
@@ -441,7 +470,7 @@ class ProxyServer(ThreadingHTTPServer):
             for r in refusals:
                 content = (f"{r['note']}. This action was not executed. "
                            "Continue the user's task another way, without this action.")
-                seen.add(hashlib.sha256(content.encode()).hexdigest())  # proxy's own text, never scored
+                seen[hashlib.sha256(content.encode()).hexdigest()] = None  # proxy's own text, never scored
                 synthetic.append({"role": "tool", "tool_call_id": (r["call"] or {}).get("id"),
                                   "content": content})
             convo = [*convo, assistant, *synthetic]

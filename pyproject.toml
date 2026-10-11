@@ -33,6 +33,9 @@ fluid = ["lanes.yaml", "packs/*.yaml"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# The repository root holds scripts/ and harness/, which several tests import;
+# put it on sys.path so `pytest` and `python -m pytest` agree locally and in CI.
+pythonpath = ["."]
 markers = ["live: opt-in real endpoint checks (FD_LIVE=1)"]
 
 [tool.ruff]
