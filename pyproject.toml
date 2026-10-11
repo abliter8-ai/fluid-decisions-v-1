@@ -8,6 +8,8 @@ version = "0.1.0"
 description = "Typed d1 decisions with policy, runtime hooks, CLI and MCP"
 readme = "README.md"
 requires-python = ">=3.11"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
 dependencies = ["httpx==0.28.1", "PyYAML==6.0.3"]
 
 [project.optional-dependencies]
