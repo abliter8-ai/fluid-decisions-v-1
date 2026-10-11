@@ -3,9 +3,10 @@
 No agent model is in the loop. Each episode's recorded tool calls and tool results
 are fed, in message order, to:
 
-- ``lane``: the fluid gate and post_result against the d1 text lane, with a fresh
-  audit log and ledger per episode, so session taint is replayed in order exactly
-  as the proxy would have applied it;
+- ``lane``: the fluid gate and post_result against the d1 text lane, warmed once
+  per arm before the first scored decision, with a fresh audit log and ledger per
+  episode, so session taint is replayed in order exactly as the proxy would have
+  applied it;
 - ``judge-haiku-prompt``: the prompts the live judge arm sends (shared with it
   through :mod:`fluid.judge`, so they are byte-identical), scored by an
   OpenAI-compatible endpoint under the unchanged pack policy;
@@ -18,10 +19,12 @@ are fed, in message order, to:
 
 Two cases are folded into the scorer loop. Repeated history: a tool result whose
 text recurs within an episode is scored once and that decision applied to every
-appearance, as the proxy does, so the lane's taint is not double-counted. Judge
-outage: a transport failure, timeout or error status from the judge endpoint is
-recorded as ``ask`` with reason ``judge_unavailable`` (refused, never a pass) and
-is retried on the next run.
+appearance, as the proxy does, so the lane's taint is not double-counted. Outage:
+a transport failure, timeout or error status from the judge endpoint is recorded
+as ``ask`` with reason ``judge_unavailable``, and a lane ``timeout`` or
+``lane_down`` as the lane's own ``ask``. Either is an outage: never a pass, not a
+judgement either. It is counted under ``outages``, kept out of the refusal,
+flag, agreement and latency figures, and retried on the next run.
 
 Tool results the original guard already redacted or withheld (guard-arm
 transcripts) are not re-scored — their original text is gone — and are counted.
@@ -191,9 +194,19 @@ def _decision(verdict: str, reasons: list[Any], latency_ms: float, tokens_in: in
             "tokens_in": int(tokens_in), "tokens_out": int(tokens_out), "outage": outage}
 
 
+LANE_OUTAGE_REASONS = frozenset({"timeout", "lane_down"})
+
+
 class LaneScorer:
     """The guard itself: Decisions.gate and Decisions.post_result against the text
-    lane. Stateful per episode (taint), so it resumes a whole episode at a time."""
+    lane. Stateful per episode (taint), so it resumes a whole episode at a time.
+
+    One fresh lane client per pass (arm), warmed once before the first scored
+    decision and outside any timed decision: a new client gives the warm-up its
+    first-call budget, so a lane that went cold while the judges ran wakes up
+    instead of timing out. Each episode then gets a fresh ledger and audit log on
+    that warm client. A lane ``timeout`` or ``lane_down`` is an outage, not a
+    judgement."""
 
     name = "lane"
     stateful = True
@@ -203,33 +216,64 @@ class LaneScorer:
         self.factory = decisions_factory
         self.decisions: Any = None
         self.session = ""
+        self.arm = ""
+        self._pass_tmp: tempfile.TemporaryDirectory[str] | None = None
         self._tmp: tempfile.TemporaryDirectory[str] | None = None
 
+    def begin_pass(self, arm: str) -> None:
+        self.arm = arm
+
+    def _ensure_pass(self) -> None:
+        if self.decisions is not None:
+            return
+        self._pass_tmp = tempfile.TemporaryDirectory(prefix="replay-lane-pass-")
+        self.decisions = self.factory(Path(self._pass_tmp.name))
+        warm = getattr(self.decisions, "warmup", None)
+        if callable(warm):
+            warm()   # untimed; a failure surfaces as lane outages on the decisions
+
+    def end_pass(self) -> None:
+        close = getattr(self.decisions, "close", None)
+        if callable(close):
+            close()
+        self.decisions = None
+        if self._pass_tmp is not None:
+            self._pass_tmp.cleanup()
+            self._pass_tmp = None
+
     def start_episode(self, episode: Episode) -> None:
+        self._ensure_pass()
         self._tmp = tempfile.TemporaryDirectory(prefix="replay-lane-")
-        self.decisions = self.factory(Path(self._tmp.name))
-        self.session = "replay-" + hashlib.sha256(episode.id.encode()).hexdigest()[:12]
+        episode_dir = Path(self._tmp.name)
+        if hasattr(self.decisions, "ledger") and hasattr(self.decisions, "audit"):
+            from fluid.audit import Audit
+            from fluid.ledger import Ledger
+            self.decisions.ledger = Ledger(episode_dir / "sessions")
+            self.decisions.audit = Audit(episode_dir / "audit.jsonl")
+        self.session = "replay-" + hashlib.sha256(f"{self.arm}:{episode.id}".encode()).hexdigest()[:12]
 
     def end_episode(self) -> None:
         if self._tmp is not None:
             self._tmp.cleanup()
             self._tmp = None
 
+    def _lane(self, d: dict[str, Any], start: float) -> dict[str, Any]:
+        raw = d.get("usage")
+        usage: dict[str, Any] = raw if isinstance(raw, dict) else {}
+        reasons = [str(r) for r in d.get("reasons", [])]
+        return _decision(str(d.get("verdict", "ask")), reasons, (time.monotonic() - start) * 1000,
+                         usage.get("input_tokens", 0), outage=bool(LANE_OUTAGE_REASONS & set(reasons)))
+
     def score_call(self, episode: Episode, call: Call, history: list[Result]) -> dict[str, Any]:
         start = time.monotonic()
-        d = self.decisions.gate(call.function, call.args, user_request=episode.user_request,
-                                session_id=self.session)
-        usage = d.get("usage") if isinstance(d.get("usage"), dict) else {}
-        return _decision(str(d.get("verdict", "ask")), d.get("reasons", []),
-                         (time.monotonic() - start) * 1000, usage.get("input_tokens", 0))
+        return self._lane(self.decisions.gate(call.function, call.args, user_request=episode.user_request,
+                                              session_id=self.session), start)
 
     def score_result(self, episode: Episode, result: Result) -> dict[str, Any]:
         start = time.monotonic()
-        d = self.decisions.post_result(result.text, session_id=self.session, tool_name=result.function,
-                                       user_request=episode.user_request)
-        usage = d.get("usage") if isinstance(d.get("usage"), dict) else {}
-        return _decision(str(d.get("verdict", "ask")), d.get("reasons", []),
-                         (time.monotonic() - start) * 1000, usage.get("input_tokens", 0))
+        return self._lane(self.decisions.post_result(result.text, session_id=self.session,
+                                                     tool_name=result.function,
+                                                     user_request=episode.user_request), start)
 
 
 class _JudgeBase:
@@ -382,6 +426,9 @@ class DecisionLog:
 
 def replay_scorer(episodes: list[Episode], scorer: Any, arm: str, log: DecisionLog) -> list[dict[str, Any]]:
     records: list[dict[str, Any]] = []
+    begin = getattr(scorer, "begin_pass", None)
+    if callable(begin):
+        begin(arm)
     for episode in episodes:
         first: dict[str, int] = {}
         for _calls, results in episode.steps:
@@ -430,6 +477,9 @@ def replay_scorer(episodes: list[Episode], scorer: Any, arm: str, log: DecisionL
                 records.append(rec)
         if started:
             scorer.end_episode()
+    end = getattr(scorer, "end_pass", None)
+    if callable(end):
+        end()
     return records
 
 
@@ -451,11 +501,14 @@ def scorer_metrics(records: list[dict[str, Any]], lane_refused: dict[tuple[str, 
     def refused(r: dict[str, Any]) -> bool:
         return r["verdict"] != "allow"
 
-    calls = [r for r in records if r["kind"] == "call"]
-    results = [r for r in records if r["kind"] == "result"]
+    # An outage is neither a pass nor a judgement: it is counted on its own and
+    # kept out of every population below (a repeat inherits its first scoring).
+    judged = [r for r in records if not r.get("outage")]
+    calls = [r for r in judged if r["kind"] == "call"]
+    results = [r for r in judged if r["kind"] == "result"]
     distinct = [r for r in results if not r.get("repeat")]
     scored = [r for r in records if not r.get("repeat")]
-    latencies = [float(r["latency_ms"]) for r in scored]
+    latencies = [float(r["latency_ms"]) for r in scored if not r.get("outage")]
     agreement: dict[str, Any] | str
     if lane_refused is None:
         agreement = "reference"
@@ -514,7 +567,7 @@ def build_report(logdir: Path, arms: list[str], scorers: list[Any], log: Decisio
                 records, None if scorer.name == "lane" else lane_refused, scorer.scores_results, sanitized)
             if scorer.name == "lane":
                 lane_refused = {(r["episode"], r["index"]): r["verdict"] != "allow"
-                                for r in records if r["kind"] == "call"}
+                                for r in records if r["kind"] == "call" and not r.get("outage")}
         report["arms"][arm] = arm_out
     return report
 
@@ -564,9 +617,9 @@ def _lane_factory() -> Callable[[Path], Any]:
     from fluid.ledger import Ledger
     from fluid.service import Decisions
     lanes = os.environ.get("FLUID_LANES_FILE")
-    client = D1Client(lanes_file=Path(lanes) if lanes else None)
 
-    def make(directory: Path) -> Any:
+    def make(directory: Path) -> Any:   # called once per pass: a fresh, unseen client
+        client = D1Client(lanes_file=Path(lanes) if lanes else None)
         return Decisions(client=client, audit=Audit(directory / "audit.jsonl"),
                          ledger=Ledger(directory / "sessions"))
     return make
