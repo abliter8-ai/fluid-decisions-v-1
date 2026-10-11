@@ -46,6 +46,10 @@ An unscored result is released with `checked: false` by default, and its uncerta
 
 The MVP also includes versioned YAML question packs and policies, a session ledger for flagged and pending results, and an audit log of verdicts, probabilities, lane, pack version and latency. Raw input state stays out of the audit log by default.
 
+### How the small decision lane compares to a chat-model judge
+
+In an external [AgentDojo comparison](docs/c-completion_reports/CR-008_AgentDojo_Comparison.md), the d1-lane guard was measured against an **independent chat-model judge** (`claude-haiku-5-5`) scoring the same tool calls and results under the same policy. On blocking the prompt-injection attack the two were **on par** (both took targeted attack success to ~0). But the small decision lane did it **~3× faster per scorer call** (~447 ms vs ~1350 ms), with **~17× fewer tokens** (~25k vs ~441k) and ~10× fewer scorer calls — and, unlike the whole-result-withholding judge, it **preserved task utility** by redacting only the injected unit rather than discarding the whole tool result. Indicative on a small slice, not a settled ranking; the numbers and caveats are in CR-008.
+
 The full scope and acceptance criteria are in [IP-001: the kickoff plan](docs/b-implementation_plans/IP-001-KICKOFF.md).
 
 <a name="how-it-works"></a>
