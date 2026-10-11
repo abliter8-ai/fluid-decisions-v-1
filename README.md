@@ -50,6 +50,8 @@ The MVP also includes versioned YAML question packs and policies, a session ledg
 
 In an external [AgentDojo comparison](docs/c-completion_reports/CR-008_AgentDojo_Comparison.md), the d1-lane guard was measured against an **independent chat-model judge** (`claude-haiku-5-5`) scoring the same tool calls and results under the same policy. On blocking the prompt-injection attack the two were **on par** (both took targeted attack success to ~0). But the small decision lane did it **~3× faster per scorer call** (~447 ms vs ~1350 ms), with **~17× fewer tokens** (~25k vs ~441k) and ~10× fewer scorer calls — and, unlike the whole-result-withholding judge, it **preserved task utility** by redacting only the injected unit rather than discarding the whole tool result. Indicative on a small slice, not a settled ranking; the numbers and caveats are in CR-008.
 
+Reading past the measurement (an inference, not a measured result): `claude-haiku-5-5` is a fast, capable cloud classifier backed by Anthropic's own safety tuning, and a self-hoster can't run it privately. The realistic self-hosted alternative to the decision lane is a *local* general LLM used as a judge, which — being far larger than a 3B decision model — would be slower than it, and, without comparable safety tuning, is unlikely to be safer than Haiku. That a ~3B local decision model matched Haiku at a fraction of the cost therefore suggests d1 is a strong local guard relative to a self-hosted LLM classifier. This is not directly measured here; a local-LLM-judge arm is future work.
+
 The full scope and acceptance criteria are in [IP-001: the kickoff plan](docs/b-implementation_plans/IP-001-KICKOFF.md).
 
 <a name="how-it-works"></a>
