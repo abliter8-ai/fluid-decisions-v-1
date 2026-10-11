@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Example macOS LaunchAgent for the fluid-decisions hook daemon (IP-006 section 4).
+  Template only; this project installs nothing. Copy to
+  ~/Library/LaunchAgents/, replace every /path/to placeholder, then load with:
+      launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/fluid-hookd.plist
+  The daemon holds one warm client and serves pre_tool and post_result over the
+  Unix socket; the runtime hook (fluid.hook) connects to it and falls back
+  in-process when it is absent. No TCP port is opened.
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.example.fluid-decisions.hookd</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/path/to/venv/bin/python</string>
+    <string>-m</string>
+    <string>fluid.hookd</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>FLUID_DATA_DIR</key><string>/path/to/fluid-data</string>
+    <!-- Optional explicit socket path; defaults to FLUID_DATA_DIR/hookd.sock:
+    <key>FLUID_HOOK_SOCKET</key><string>/path/to/fluid-data/hookd.sock</string> -->
+    <!-- Lane endpoints: set FD_MAX_URL and FD_OMNI_URL, or FLUID_LANES_FILE: -->
+    <key>FLUID_LANES_FILE</key><string>/path/to/lanes.yaml</string>
+  </dict>
+  <key>WorkingDirectory</key><string>/path/to/fluid-decisions</string>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+  <key>StandardOutPath</key><string>/path/to/fluid-data/hookd.log</string>
+  <key>StandardErrorPath</key><string>/path/to/fluid-data/hookd.log</string>
+</dict>
+</plist>

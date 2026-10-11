@@ -1,0 +1,346 @@
+{
+  "health": {
+    "status": 200,
+    "elapsed_ms": 1.0,
+    "response": {
+      "status": "ok",
+      "loaded": true,
+      "model": "d1-3B",
+      "revision": "051bcc464b01b9f92942b364d9586b0ef5912432",
+      "device": "mps:0",
+      "dtype": "float16",
+      "modalities": [
+        "text",
+        "image"
+      ]
+    },
+    "validation_errors": []
+  },
+  "shared": [
+    {
+      "status": 200,
+      "elapsed_ms": 140.3,
+      "response": {
+        "model": "d1-3B",
+        "answers": {
+          "decision": {
+            "type": "choice",
+            "choice": "billing",
+            "confidence": 0.9525741268224334,
+            "probabilities": {
+              "billing": 0.9525741268224334,
+              "support": 0.04742587317756679
+            }
+          },
+          "severity": {
+            "type": "score",
+            "score": 0.9197220997489222,
+            "confidence": 0.5386138230892352,
+            "probabilities": {
+              "0": 0.27083203858092136,
+              "1": 0.5386138230892352,
+              "2": 0.19055413832984344
+            },
+            "legend": {
+              "0": "low",
+              "1": "medium",
+              "2": "high"
+            }
+          },
+          "safe": {
+            "type": "noul",
+            "noul": 0.5039061705290805
+          }
+        },
+        "usage": {
+          "input_tokens": 102,
+          "output_tokens": 0
+        },
+        "timings": {
+          "ms": 139.5
+        }
+      },
+      "validation_errors": []
+    },
+    {
+      "status": 200,
+      "elapsed_ms": 130.7,
+      "response": {
+        "model": "d1-3B",
+        "answers": {
+          "decision": {
+            "type": "choice",
+            "choice": "billing",
+            "confidence": 0.9525741268224334,
+            "probabilities": {
+              "billing": 0.9525741268224334,
+              "support": 0.04742587317756679
+            }
+          },
+          "severity": {
+            "type": "score",
+            "score": 0.9197220997489222,
+            "confidence": 0.5386138230892352,
+            "probabilities": {
+              "0": 0.27083203858092136,
+              "1": 0.5386138230892352,
+              "2": 0.19055413832984344
+            },
+            "legend": {
+              "0": "low",
+              "1": "medium",
+              "2": "high"
+            }
+          },
+          "safe": {
+            "type": "noul",
+            "noul": 0.5039061705290805
+          }
+        },
+        "usage": {
+          "input_tokens": 102,
+          "output_tokens": 0
+        },
+        "timings": {
+          "ms": 129.7
+        }
+      },
+      "validation_errors": []
+    },
+    {
+      "status": 200,
+      "elapsed_ms": 130.9,
+      "response": {
+        "model": "d1-3B",
+        "answers": {
+          "decision": {
+            "type": "choice",
+            "choice": "billing",
+            "confidence": 0.9525741268224334,
+            "probabilities": {
+              "billing": 0.9525741268224334,
+              "support": 0.04742587317756679
+            }
+          },
+          "severity": {
+            "type": "score",
+            "score": 0.9197220997489222,
+            "confidence": 0.5386138230892352,
+            "probabilities": {
+              "0": 0.27083203858092136,
+              "1": 0.5386138230892352,
+              "2": 0.19055413832984344
+            },
+            "legend": {
+              "0": "low",
+              "1": "medium",
+              "2": "high"
+            }
+          },
+          "safe": {
+            "type": "noul",
+            "noul": 0.5039061705290805
+          }
+        },
+        "usage": {
+          "input_tokens": 102,
+          "output_tokens": 0
+        },
+        "timings": {
+          "ms": 129.9
+        }
+      },
+      "validation_errors": []
+    },
+    {
+      "status": 200,
+      "elapsed_ms": 129.9,
+      "response": {
+        "model": "d1-3B",
+        "answers": {
+          "decision": {
+            "type": "choice",
+            "choice": "billing",
+            "confidence": 0.9525741268224334,
+            "probabilities": {
+              "billing": 0.9525741268224334,
+              "support": 0.04742587317756679
+            }
+          },
+          "severity": {
+            "type": "score",
+            "score": 0.9197220997489222,
+            "confidence": 0.5386138230892352,
+            "probabilities": {
+              "0": 0.27083203858092136,
+              "1": 0.5386138230892352,
+              "2": 0.19055413832984344
+            },
+            "legend": {
+              "0": "low",
+              "1": "medium",
+              "2": "high"
+            }
+          },
+          "safe": {
+            "type": "noul",
+            "noul": 0.5039061705290805
+          }
+        },
+        "usage": {
+          "input_tokens": 102,
+          "output_tokens": 0
+        },
+        "timings": {
+          "ms": 129.0
+        }
+      },
+      "validation_errors": []
+    }
+  ],
+  "image": {
+    "status": 200,
+    "elapsed_ms": 2323.6,
+    "response": {
+      "model": "d1-3B",
+      "answers": {
+        "decision": {
+          "type": "choice",
+          "choice": "support",
+          "confidence": 0.712232184238947,
+          "probabilities": {
+            "billing": 0.2877678157610531,
+            "support": 0.712232184238947
+          }
+        },
+        "severity": {
+          "type": "score",
+          "score": 0.23626586864355464,
+          "confidence": 0.8172158998070059,
+          "probabilities": {
+            "0": 0.8172158998070059,
+            "1": 0.12930233174243322,
+            "2": 0.05348176845056072
+          },
+          "legend": {
+            "0": "low",
+            "1": "medium",
+            "2": "high"
+          }
+        },
+        "safe": {
+          "type": "noul",
+          "noul": 0.13117322376181567
+        }
+      },
+      "usage": {
+        "input_tokens": 1381,
+        "output_tokens": 0
+      },
+      "timings": {
+        "ms": 2305.1
+      }
+    },
+    "validation_errors": []
+  },
+  "audio": {
+    "status": null,
+    "skipped": true,
+    "reason": "audio is exercised on the omni lane only"
+  },
+  "mixed_media": {
+    "status": 422,
+    "elapsed_ms": 2.3,
+    "response": {
+      "error": "images and audio cannot be combined"
+    },
+    "validation_errors": []
+  },
+  "batch": {
+    "status": 200,
+    "elapsed_ms": 250.0,
+    "response": {
+      "model": "d1-3B",
+      "results": [
+        {
+          "answers": {
+            "decision": {
+              "type": "choice",
+              "choice": "billing",
+              "confidence": 0.9525741268224334,
+              "probabilities": {
+                "billing": 0.9525741268224334,
+                "support": 0.04742587317756679
+              }
+            },
+            "severity": {
+              "type": "score",
+              "score": 0.9197220997489222,
+              "confidence": 0.5386138230892352,
+              "probabilities": {
+                "0": 0.27083203858092136,
+                "1": 0.5386138230892352,
+                "2": 0.19055413832984344
+              },
+              "legend": {
+                "0": "low",
+                "1": "medium",
+                "2": "high"
+              }
+            },
+            "safe": {
+              "type": "noul",
+              "noul": 0.5039061705290805
+            }
+          },
+          "usage": {
+            "input_tokens": 102,
+            "output_tokens": 0
+          }
+        },
+        {
+          "answers": {
+            "decision": {
+              "type": "choice",
+              "choice": "support",
+              "confidence": 0.8652240825770433,
+              "probabilities": {
+                "billing": 0.1347759174229568,
+                "support": 0.8652240825770433
+              }
+            },
+            "severity": {
+              "type": "score",
+              "score": 0.5896032343934765,
+              "confidence": 0.5450030116488962,
+              "probabilities": {
+                "0": 0.5450030116488962,
+                "1": 0.32039074230873105,
+                "2": 0.13460624604237276
+              },
+              "legend": {
+                "0": "low",
+                "1": "medium",
+                "2": "high"
+              }
+            },
+            "safe": {
+              "type": "noul",
+              "noul": 0.45713671682749485
+            }
+          },
+          "usage": {
+            "input_tokens": 93,
+            "output_tokens": 0
+          }
+        }
+      ],
+      "timings": {
+        "ms": 249.1
+      }
+    },
+    "validation_errors": []
+  },
+  "validation_failures": [],
+  "answer_shape_matches_original": true
+}

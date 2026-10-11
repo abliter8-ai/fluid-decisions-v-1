@@ -1,0 +1,189 @@
+{
+  "lane": "text",
+  "note": "counts and probabilities only; candidate, packet and spec text not recorded",
+  "runs": [
+    {
+      "example": "constraints/driver-load.json",
+      "job": "constraints",
+      "verdict": "no_feasible_candidate",
+      "reasons": [
+        "fails:rest"
+      ],
+      "budget": {
+        "expected_ms": 849.1508444444444,
+        "total_chars": 2392,
+        "budget_s": 2.0,
+        "budget_source": "measured"
+      },
+      "client_ms": 1331.2,
+      "wall_ms": 7241.2,
+      "passes": 1,
+      "failing": [
+        {
+          "id": "rest",
+          "severity": "critical"
+        }
+      ],
+      "constraints": {
+        "hours_cap": {
+          "held": 0.5774953651858118,
+          "severity": "major",
+          "status": "uncertain"
+        },
+        "rest": {
+          "held": 0.030675801710674105,
+          "severity": "critical",
+          "status": "fails"
+        },
+        "vehicle_class": {
+          "held": 0.983342959990771,
+          "severity": "critical",
+          "status": "holds"
+        },
+        "delivery_window": {
+          "held": 0.9458012701768145,
+          "severity": "major",
+          "status": "holds"
+        },
+        "licence_valid": {
+          "held": 0.9648551535992067,
+          "severity": "critical",
+          "status": "holds"
+        },
+        "weight": {
+          "held": 0.9755769099458929,
+          "severity": "major",
+          "status": "holds"
+        }
+      }
+    },
+    {
+      "example": "constraints/driver-load-fails.json",
+      "job": "constraints",
+      "verdict": "no_feasible_candidate",
+      "reasons": [
+        "fails:rest",
+        "fails:delivery_window",
+        "fails:weight"
+      ],
+      "budget": {
+        "expected_ms": 847.1539777777778,
+        "total_chars": 2386,
+        "budget_s": 2.0,
+        "budget_source": "measured"
+      },
+      "client_ms": 1319.4,
+      "wall_ms": 1327.2,
+      "passes": 1,
+      "failing": [
+        {
+          "id": "rest",
+          "severity": "major"
+        },
+        {
+          "id": "delivery_window",
+          "severity": "critical"
+        },
+        {
+          "id": "weight",
+          "severity": "critical"
+        }
+      ],
+      "constraints": {
+        "hours_cap": {
+          "held": 0.31742626558767584,
+          "severity": "major",
+          "status": "uncertain"
+        },
+        "rest": {
+          "held": 0.22000709974589314,
+          "severity": "major",
+          "status": "fails"
+        },
+        "vehicle_class": {
+          "held": 0.3702253925955866,
+          "severity": "critical",
+          "status": "uncertain"
+        },
+        "delivery_window": {
+          "held": 0.1242130083520534,
+          "severity": "critical",
+          "status": "fails"
+        },
+        "licence_valid": {
+          "held": 0.6959583250334526,
+          "severity": "critical",
+          "status": "uncertain"
+        },
+        "weight": {
+          "held": 0.01826427835185701,
+          "severity": "critical",
+          "status": "fails"
+        }
+      }
+    },
+    {
+      "example": "validity/application-form.txt",
+      "job": "validity",
+      "verdict": "valid",
+      "reasons": [],
+      "budget": {
+        "expected_ms": 142.11446666666663,
+        "total_chars": 334,
+        "budget_s": 2.0,
+        "budget_source": "measured"
+      },
+      "client_ms": 338.7,
+      "wall_ms": 344.9,
+      "page_split": false,
+      "document_type": "membership_application",
+      "document_type_top": 0.982797289763198,
+      "completeness": "complete",
+      "checks": {
+        "name_present": {
+          "holds": 0.9863631647185701,
+          "status": "holds"
+        },
+        "dated": {
+          "holds": 0.9879462204837635,
+          "status": "holds"
+        },
+        "tier_chosen": {
+          "holds": 0.9881308789536605,
+          "status": "holds"
+        },
+        "signed": {
+          "holds": 0.9111797075998822,
+          "status": "holds"
+        },
+        "emergency_contact": {
+          "holds": 0.9911526449170697,
+          "status": "holds"
+        }
+      },
+      "failing": []
+    },
+    {
+      "example": "validity/application-form.png",
+      "job": "validity",
+      "verdict": "ask",
+      "reasons": [
+        "timeout"
+      ],
+      "budget": {
+        "expected_ms": null,
+        "total_chars": null,
+        "budget_s": null,
+        "budget_source": null
+      },
+      "client_ms": null,
+      "wall_ms": 2011.5,
+      "page_split": null,
+      "document_type": null,
+      "document_type_top": null,
+      "completeness": null,
+      "checks": {},
+      "failing": null
+    }
+  ]
+}

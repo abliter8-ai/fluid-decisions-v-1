@@ -1,0 +1,133 @@
+{
+  "redacted": true,
+  "plan": "IP-002-HARDENING",
+  "generated_at": "2026-10-09T21:26:57.947502+00:00",
+  "reviewed_base_commit": "2d4bd6e337a115caad2e7e505aabc6f44516f940",
+  "scope": "Independent acceptance verification of working-tree IP-002 implementation and user-directed session-only taint measurement; no fleet mutation or model downloads.",
+  "offline": {
+    "command": "env -u FD_LIVE -u FD_MAX_URL -u FD_OMNI_URL -u FLUID_LANES_FILE -u FLUID_AUDIT_STATE .venv/bin/python -m pytest -q",
+    "exit_code": 0,
+    "result": "85 passed, 3 skipped in 1.11s",
+    "ruff": {
+      "command": ".venv/bin/python -m ruff check fluid scripts tests examples",
+      "exit_code": 0,
+      "result": "All checks passed!"
+    },
+    "mypy": {
+      "command": ".venv/bin/python -m mypy fluid",
+      "exit_code": 0,
+      "result": "Success: no issues found in 10 source files"
+    }
+  },
+  "acceptance_review": {
+    "graded_taint_and_operation_floor": "Passed independently offline and live.",
+    "historical_carry_over_lane_down": "Passed independently offline and live smoke.",
+    "expiry_clearance_append_only_hashes": "Covered by storage/service/CLI tests.",
+    "all_nonempty_results_static_and_windowed": "Covered by service tests, including flagged tail and ClientError withholding.",
+    "warm_budget_assertions": "Both configured lanes assert FD_LIVE_WARM_MS with default 1000.",
+    "ip001_waiver": "Original serving acceptance remains unchecked and waiver is explicit.",
+    "threshold_location": "New policy values/rule lists are YAML; calibration remains uncalibrated.",
+    "session_only_assessment": "IP002 implementation note records user steering exception; same batch, visible and audited, deterministic floor retained."
+  },
+  "live": {
+    "status": "passed",
+    "module": {
+      "command": "env -u FLUID_LANES_FILE -u FLUID_AUDIT_STATE -u FD_LIVE_WARM_MS FD_LIVE=1 FD_MAX_URL=http://text-lane-host:8774 FD_OMNI_URL=http://gateway-host:8774 .venv/bin/python -m pytest tests/test_live.py -q -s",
+      "exit_code": 0,
+      "result": "3 passed in 2.87s",
+      "max_warm_ms": 210.2,
+      "omni_warm_ms": 53.1,
+      "warm_budget_ms": 1000
+    },
+    "hardening": {
+      "command": "env -u FLUID_LANES_FILE -u FLUID_AUDIT_STATE FD_LIVE=1 .venv/bin/python scripts/smoke_hardening.py --max-url http://text-lane-host:8774 --timeout 30 --output /tmp/fluid-ip002-independent-hardening-smoke.json",
+      "exit_code": 0,
+      "checks": {
+        "taint_pair_measured": true,
+        "benign_read": true,
+        "session_assessed": true,
+        "mutating_floor": true,
+        "hook_context": true,
+        "clear": true,
+        "model_after_clear": true,
+        "carry_over_lane_down": true,
+        "short_injection_lane_down": true,
+        "long_result": true,
+        "clearance_audited": true
+      },
+      "raw_artifact": "/tmp/fluid-ip002-independent-hardening-smoke.json",
+      "raw_sha256": "18db40a310fd89a393bf72a0a5393b3a0e13b6a00680f75d1c28817d44a52f3c",
+      "generated_at": "2026-10-09T21:24:18.492845+00:00",
+      "max_url": "http://text-lane-host:8774",
+      "timeout_seconds": 30
+    },
+    "measurements": {
+      "from_untrusted_without_taint": 0.11279540628289324,
+      "from_untrusted_with_taint": 0.16026603232776068,
+      "session_only_untrusted": 0.672331699179286,
+      "benign_active_taint_verdict": "allow",
+      "mutating_active_taint_verdict": "ask",
+      "mutating_active_taint_reasons": [
+        "risk_at_or_above_ask:destructive",
+        "user_requested_softened_ask",
+        "session_taint_floor:mutating",
+        "session_taint_active"
+      ],
+      "mutating_after_clear_verdict": "allow",
+      "hook_reasons": [
+        "session_taint_active"
+      ],
+      "long_result_verdict": "allow",
+      "long_result_windows": 3,
+      "long_result_client_ms": 4846.0
+    },
+    "interpretation": "The paired gate measurement has a weak upward shift; the dedicated session-history answer is informational. No threshold calibration or standalone protection claim is justified. Deterministic carry-over and operation floors remain enforced."
+  },
+  "serving_adapter": {
+    "status": "root_evidence_reviewed_passed",
+    "independent_reload": false,
+    "reason": "Bounded serving run performed by root; verifier reviewed its evidence without loading another model.",
+    "evidence": [
+      "docs/self-hosted-smoke.json",
+      "docs/self-hosted-contract.json",
+      "docs/self-hosted-run.json"
+    ],
+    "load_seconds": 22.656,
+    "warm_latency_ms": 130.7,
+    "revision": "051bcc464b01b9f92942b364d9586b0ef5912432",
+    "answer_shape_matches_original": true,
+    "mixed_media_status": 422,
+    "port_closed_after": true,
+    "fleet_hashes_and_pids_unchanged": true,
+    "fleet_health_after": 200,
+    "local_omni": "Skipped as planned: incomplete local snapshot; no download or local omni serving."
+  },
+  "findings": [],
+  "verdict": "approve",
+  "source_sha256": {
+    "fluid/service.py": "32ac91c8a51b2e6fec6e3937362b98eff6000513be7d75469381f0e164fd56e1",
+    "fluid/policy.py": "c38cc3c53ece916caef7c86327961396ed963ea312b8d7a020c2ebaa5be7e71a",
+    "fluid/ledger.py": "409f13ce02e81d8f9e3de80a1050c0b1ec422de6f02c11ee66555a50cf5861c3",
+    "fluid/audit.py": "0ae37dd9edc29d7e9737c3bfaa14ab4bf6547960c5f4f8074e0e3ec688b639c2",
+    "fluid/cli.py": "906e776dcf870f6943b2bc77cf290bbeda6342db16508fec18f21ae9c6f670a6",
+    "fluid/packs/gate.yaml": "8d55e1b5851a147e9804452c89a9749e6bbf724937d5f5a130de86054d1d878d",
+    "tests/test_live.py": "0aef13341cd00558908a2641dc04cacf9a650f2ada15ccd11a1dc416bec816df",
+    "scripts/smoke_hardening.py": "4f64599296e5d39896abbb73c5a49237cfe2dcfa464db651b2a98dd7c5259b5f"
+  },
+  "completion_context": {
+    "status": "verified",
+    "report": "docs/c-completion_reports/CR-002_Gate_Hardening.md",
+    "implementation_commit": "5a1e485",
+    "ip_status": "complete",
+    "documentation": [
+      "README.md",
+      "docs/SELF_HOSTING.md",
+      "docs/USAGE.md",
+      "AGENTS.md",
+      "docs/c-completion_reports/CR-001_Fluid_Decisions.md"
+    ],
+    "assessment": "Report matches independent measurements, records adapter platform and exact versions, distinguishes RSS from MPS memory, and discloses the large-result timeout limit and skipped local omni. IP001 waiver and user-directed session assessment amendment are explicit. Final documentation commit/push remains root delivery work."
+  },
+  "implementation_commit": "5a1e485",
+  "plan_alignment": "Implementation matches approved IP002 including recorded user steering for the informational session-only assessment; no calibration or new pack."
+}

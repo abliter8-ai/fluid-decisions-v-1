@@ -1,0 +1,24 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+# The planted IP-005 trap fixture holds only a fake placeholder key.
+!harness/traps/overlay/config/.env
+docs/z-inspiration/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.egg-info/
+build/
+dist/
+models/
+models-manifest.json
+.cache/
+# Local data dir and operator lane config with real endpoints (never committed);
+# the real lanes file lives here, e.g. .fluid-decisions/lanes.maintainer.yaml,
+# and FLUID_LANES_FILE points at it. examples/lanes.maintainer.yaml is a placeholder.
+.fluid-decisions/
+.venv-*/

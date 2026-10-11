@@ -1,0 +1,15 @@
+calibration: uncalibrated
+scopes:
+  gate:
+    destructive: [tool_name, tool_input]
+    exfiltration: [tool_name, tool_input]
+    privilege: [tool_name, tool_input]
+    secret_exposure: [tool_name, tool_input]
+    operation: [tool_name, tool_input]
+    off_task: [tool_name, tool_input, user_request]
+    violates_constraint: [tool_name, tool_input, user_request]
+    unresolved_choice: [tool_name, tool_input, user_request]
+    authorized: [tool_name, tool_input, user_request]
+    user_requested: [tool_name, tool_input, user_request]
+    from_untrusted: [tool_name, tool_input, user_request, session]
+    directed_injection: [tool_input, session]

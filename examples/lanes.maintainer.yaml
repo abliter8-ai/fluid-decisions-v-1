@@ -1,0 +1,13 @@
+# Placeholder shape for operator-owned test lanes. This committed file carries no
+# real endpoints. Copy it to an ignored local path (for example
+# .fluid-decisions/lanes.maintainer.yaml, which .gitignore excludes), fill in your
+# real lane URLs there, and point FLUID_LANES_FILE at that local file. The client,
+# CLI and harness read FLUID_LANES_FILE (or FD_MAX_URL / FD_OMNI_URL); they never
+# load this placeholder for a live run.
+lanes:
+  max:
+    url: <text-lane-url>
+    modalities: [text, image]
+  omni:
+    url: <audio-lane-url>
+    modalities: [text, image, audio]

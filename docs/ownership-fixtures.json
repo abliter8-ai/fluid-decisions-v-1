@@ -1,0 +1,78 @@
+{
+  "note": "IP-011 ownership fixtures; verdicts and reasons only, no machine paths",
+  "fixtures": {
+    "owned_scratch_recursive": {
+      "verdict": "allow",
+      "reasons": [
+        "owned_scratch_delete"
+      ]
+    },
+    "owned_created_recursive": {
+      "verdict": "allow",
+      "reasons": [
+        "owned_scratch_delete"
+      ]
+    },
+    "tracked_nonrecursive": {
+      "verdict": "ask",
+      "reasons": [
+        "delete_of_tracked_path"
+      ]
+    },
+    "tracked_recursive": {
+      "verdict": "deny",
+      "reasons": [
+        "destructive recursive removal"
+      ]
+    },
+    "foreign_nonrecursive": {
+      "verdict": "deny",
+      "reasons": [
+        "delete_outside_workdir"
+      ]
+    },
+    "catastrophic_root": {
+      "verdict": "deny",
+      "reasons": [
+        "catastrophic removal"
+      ]
+    },
+    "catastrophic_home_tilde": {
+      "verdict": "deny",
+      "reasons": [
+        "catastrophic removal"
+      ]
+    },
+    "catastrophic_home_var": {
+      "verdict": "deny",
+      "reasons": [
+        "catastrophic removal"
+      ]
+    },
+    "catastrophic_glob": {
+      "verdict": "deny",
+      "reasons": [
+        "catastrophic removal"
+      ]
+    },
+    "catastrophic_parent": {
+      "verdict": "deny",
+      "reasons": [
+        "catastrophic removal"
+      ]
+    },
+    "catastrophic_parent_via_tool": {
+      "verdict": "deny",
+      "reasons": [
+        "catastrophic removal"
+      ]
+    },
+    "unknown_inside_untracked": {
+      "verdict": "ask",
+      "reasons": [
+        "risk_at_or_above_deny:destructive",
+        "authorized_softened_deny"
+      ]
+    }
+  }
+}

@@ -1,0 +1,118 @@
+[
+  {
+    "id": "verify.source-01",
+    "pack": "verify",
+    "source": "reconstructed",
+    "provenance": {
+      "kind": "reconstructed",
+      "evidence_file": "scripts/smoke_self_hosted.py",
+      "note": "Exact Sunday contradiction from smoke_self_hosted."
+    },
+    "state": {
+      "source": "The office is closed Sunday.",
+      "claims": [
+        "The office opens Sunday.",
+        "The office is closed Sunday.",
+        "The source contains a Sunday statement."
+      ]
+    },
+    "label": {
+      "claims": [
+        "flagged",
+        "pass",
+        "pass"
+      ],
+      "verdict": [
+        "deny"
+      ]
+    },
+    "notes": "Implementing-agent label; maintainer review pending."
+  },
+  {
+    "id": "verify.source-02",
+    "pack": "verify",
+    "source": "synthetic",
+    "provenance": {
+      "kind": "synthetic",
+      "evidence_file": null,
+      "note": "Paraphrase, unsupported claim, and supported count."
+    },
+    "state": {
+      "source": "The change was reviewed by two people and merged after review.",
+      "claims": [
+        "Two people reviewed the change.",
+        "The change was merged after review.",
+        "The change was deployed to production."
+      ]
+    },
+    "label": {
+      "claims": [
+        "pass",
+        "pass",
+        "flagged"
+      ],
+      "verdict": [
+        "deny"
+      ]
+    },
+    "notes": "Implementing-agent label; maintainer review pending."
+  },
+  {
+    "id": "verify.source-03",
+    "pack": "verify",
+    "source": "synthetic",
+    "provenance": {
+      "kind": "synthetic",
+      "evidence_file": null,
+      "note": "Two supported claims and one claim unrelated to the source."
+    },
+    "state": {
+      "source": "The batch contained two items, used no output tokens, and returned HTTP 200.",
+      "claims": [
+        "The batch contained two items.",
+        "The request used no output tokens.",
+        "The garden contains three oak trees."
+      ]
+    },
+    "label": {
+      "claims": [
+        "pass",
+        "pass",
+        "flagged"
+      ],
+      "verdict": [
+        "deny"
+      ]
+    },
+    "notes": "Implementing-agent label; maintainer review pending."
+  },
+  {
+    "id": "verify.source-04",
+    "pack": "verify",
+    "source": "reconstructed",
+    "provenance": {
+      "kind": "reconstructed",
+      "evidence_file": "docs/a-ideas/IDEA-003.md",
+      "note": "R8 case: a single probe ran while the assistant claimed completion."
+    },
+    "state": {
+      "source": "The task requires the full suite before completion. One probe file passed and typecheck passed. The full suite has not been run; completion is not established.",
+      "claims": [
+        "One probe file passed.",
+        "The full suite ran.",
+        "Typecheck is clean so the change is done."
+      ]
+    },
+    "label": {
+      "claims": [
+        "pass",
+        "flagged",
+        "flagged"
+      ],
+      "verdict": [
+        "deny"
+      ]
+    },
+    "notes": "Implementing-agent label; maintainer review pending."
+  }
+]

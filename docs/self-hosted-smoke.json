@@ -1,0 +1,1154 @@
+{
+  "script": "smoke_self_hosted",
+  "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
+  "python": "3.14.8 (main, Sep 30 2026, 17:55:09) [Clang 21.0.0 (clang-2100.3.34.2)]",
+  "versions": {
+    "fluid_decisions": "0.1.0"
+  },
+  "urls": {
+    "max": "http://127.0.0.1:8776",
+    "omni": null
+  },
+  "checks": {
+    "health": {
+      "ok": true,
+      "elapsed_ms": 2.3,
+      "result": {
+        "last_warmup_ms": null,
+        "max": {
+          "status": "ok",
+          "loaded": true,
+          "model": "d1-3B",
+          "revision": "051bcc464b01b9f92942b364d9586b0ef5912432",
+          "device": "mps:0",
+          "dtype": "float16",
+          "modalities": [
+            "text",
+            "image"
+          ],
+          "lane": "max",
+          "timings": {
+            "client_ms": 2.2
+          }
+        }
+      }
+    },
+    "classify": {
+      "ok": true,
+      "elapsed_ms": 3505.2,
+      "result": {
+        "model": "d1-3B",
+        "answers": {
+          "credential_theft": {
+            "type": "noul",
+            "noul": 0.01971912810734659,
+            "decisiveness": 0.9605617437853068,
+            "probabilities": {
+              "yes": 0.01971912810734659,
+              "no": 0.9802808718926534
+            },
+            "confidence": null,
+            "top_probability": 0.9802808718926534,
+            "valid": true
+          },
+          "exfiltration": {
+            "type": "noul",
+            "noul": 0.024053552894426178,
+            "decisiveness": 0.9518928942111476,
+            "probabilities": {
+              "yes": 0.024053552894426178,
+              "no": 0.9759464471055739
+            },
+            "confidence": null,
+            "top_probability": 0.9759464471055739,
+            "valid": true
+          },
+          "obfuscation": {
+            "type": "noul",
+            "noul": 0.031143830534778462,
+            "decisiveness": 0.937712338930443,
+            "probabilities": {
+              "yes": 0.031143830534778462,
+              "no": 0.9688561694652216
+            },
+            "confidence": null,
+            "top_probability": 0.9688561694652216,
+            "valid": true
+          },
+          "concealment": {
+            "type": "noul",
+            "noul": 0.053403329799824234,
+            "decisiveness": 0.8931933404003516,
+            "probabilities": {
+              "yes": 0.053403329799824234,
+              "no": 0.9465966702001758
+            },
+            "confidence": null,
+            "top_probability": 0.9465966702001758,
+            "valid": true
+          },
+          "build_abuse": {
+            "type": "noul",
+            "noul": 0.029312230751356316,
+            "decisiveness": 0.9413755384972874,
+            "probabilities": {
+              "yes": 0.029312230751356316,
+              "no": 0.9706877692486436
+            },
+            "confidence": null,
+            "top_probability": 0.9706877692486436,
+            "valid": true
+          },
+          "severity": {
+            "type": "score",
+            "score": 0.3241091380113803,
+            "confidence": 0.7042868607281701,
+            "probabilities": {
+              "0": 0.7042868607281701,
+              "1": 0.2673171405322795,
+              "2": 0.028395998739550402
+            },
+            "legend": {
+              "0": "low",
+              "1": "medium",
+              "2": "high"
+            },
+            "top_probability": 0.7042868607281701,
+            "valid": true
+          }
+        },
+        "usage": {
+          "input_tokens": 170,
+          "output_tokens": 0
+        },
+        "timings": {
+          "ms": 1219.5,
+          "client_ms": 1220.7
+        },
+        "lane": "max",
+        "verdict": "allow",
+        "reasons": [
+          "classification_risk_below_ask"
+        ],
+        "risk_scores": {
+          "credential_theft": 0.01971912810734659,
+          "exfiltration": 0.024053552894426178,
+          "obfuscation": 0.031143830534778462,
+          "concealment": 0.053403329799824234,
+          "build_abuse": 0.029312230751356316
+        },
+        "needs_second_pass": false,
+        "chunk": 0,
+        "pass": 1,
+        "passes": [
+          {
+            "model": "d1-3B",
+            "answers": {
+              "credential_theft": {
+                "type": "noul",
+                "noul": 0.01971912810734659,
+                "decisiveness": 0.9605617437853068,
+                "probabilities": {
+                  "yes": 0.01971912810734659,
+                  "no": 0.9802808718926534
+                },
+                "confidence": null,
+                "top_probability": 0.9802808718926534,
+                "valid": true
+              },
+              "exfiltration": {
+                "type": "noul",
+                "noul": 0.024053552894426178,
+                "decisiveness": 0.9518928942111476,
+                "probabilities": {
+                  "yes": 0.024053552894426178,
+                  "no": 0.9759464471055739
+                },
+                "confidence": null,
+                "top_probability": 0.9759464471055739,
+                "valid": true
+              },
+              "obfuscation": {
+                "type": "noul",
+                "noul": 0.031143830534778462,
+                "decisiveness": 0.937712338930443,
+                "probabilities": {
+                  "yes": 0.031143830534778462,
+                  "no": 0.9688561694652216
+                },
+                "confidence": null,
+                "top_probability": 0.9688561694652216,
+                "valid": true
+              },
+              "concealment": {
+                "type": "noul",
+                "noul": 0.053403329799824234,
+                "decisiveness": 0.8931933404003516,
+                "probabilities": {
+                  "yes": 0.053403329799824234,
+                  "no": 0.9465966702001758
+                },
+                "confidence": null,
+                "top_probability": 0.9465966702001758,
+                "valid": true
+              },
+              "build_abuse": {
+                "type": "noul",
+                "noul": 0.029312230751356316,
+                "decisiveness": 0.9413755384972874,
+                "probabilities": {
+                  "yes": 0.029312230751356316,
+                  "no": 0.9706877692486436
+                },
+                "confidence": null,
+                "top_probability": 0.9706877692486436,
+                "valid": true
+              },
+              "severity": {
+                "type": "score",
+                "score": 0.3241091380113803,
+                "confidence": 0.7042868607281701,
+                "probabilities": {
+                  "0": 0.7042868607281701,
+                  "1": 0.2673171405322795,
+                  "2": 0.028395998739550402
+                },
+                "legend": {
+                  "0": "low",
+                  "1": "medium",
+                  "2": "high"
+                },
+                "top_probability": 0.7042868607281701,
+                "valid": true
+              }
+            },
+            "usage": {
+              "input_tokens": 170,
+              "output_tokens": 0
+            },
+            "timings": {
+              "ms": 1219.5,
+              "client_ms": 1220.7
+            },
+            "lane": "max",
+            "verdict": "allow",
+            "reasons": [
+              "classification_risk_below_ask"
+            ],
+            "risk_scores": {
+              "credential_theft": 0.01971912810734659,
+              "exfiltration": 0.024053552894426178,
+              "obfuscation": 0.031143830534778462,
+              "concealment": 0.053403329799824234,
+              "build_abuse": 0.029312230751356316
+            },
+            "needs_second_pass": false,
+            "chunk": 0,
+            "pass": 1
+          }
+        ],
+        "chunks": 1,
+        "job": "classify",
+        "pack_version": "0.1.0",
+        "complete": true
+      }
+    },
+    "route": {
+      "ok": true,
+      "elapsed_ms": 331.8,
+      "result": {
+        "model": "d1-3B",
+        "answers": {
+          "destination": {
+            "type": "choice",
+            "choice": "support",
+            "confidence": 0.7634837635542924,
+            "probabilities": {
+              "support": 0.7634837635542924,
+              "billing": 0.23651623644570763
+            },
+            "top_probability": 0.7634837635542924,
+            "valid": true
+          },
+          "escalate": {
+            "type": "noul",
+            "noul": 0.18010666408646395,
+            "decisiveness": 0.6397866718270722,
+            "probabilities": {
+              "yes": 0.18010666408646395,
+              "no": 0.8198933359135361
+            },
+            "confidence": null,
+            "top_probability": 0.8198933359135361,
+            "valid": true
+          },
+          "completeness": {
+            "type": "score",
+            "score": 1.2577066603871985,
+            "confidence": 0.42573414882420957,
+            "probabilities": {
+              "0": 0.16802748843701124,
+              "1": 0.4062383627387792,
+              "2": 0.42573414882420957
+            },
+            "legend": {
+              "0": "missing",
+              "1": "partial",
+              "2": "complete"
+            },
+            "top_probability": 0.42573414882420957,
+            "valid": true
+          }
+        },
+        "usage": {
+          "input_tokens": 100,
+          "output_tokens": 0
+        },
+        "timings": {
+          "ms": 328.8,
+          "client_ms": 330.0
+        },
+        "lane": "max",
+        "verdict": "ask",
+        "reasons": [
+          "incomplete_state"
+        ],
+        "destination": "support",
+        "completeness_level": 1,
+        "job": "route",
+        "pack_version": "0.1.0",
+        "complete": true
+      }
+    },
+    "gate": {
+      "ok": true,
+      "elapsed_ms": 593.2,
+      "result": {
+        "model": "d1-3B",
+        "answers": {
+          "destructive": {
+            "type": "noul",
+            "noul": 0.02333076880848049,
+            "decisiveness": 0.953338462383039,
+            "probabilities": {
+              "yes": 0.02333076880848049,
+              "no": 0.9766692311915195
+            },
+            "confidence": null,
+            "top_probability": 0.9766692311915195,
+            "valid": true
+          },
+          "exfiltration": {
+            "type": "noul",
+            "noul": 0.04958902298403175,
+            "decisiveness": 0.9008219540319365,
+            "probabilities": {
+              "yes": 0.04958902298403175,
+              "no": 0.9504109770159682
+            },
+            "confidence": null,
+            "top_probability": 0.9504109770159682,
+            "valid": true
+          },
+          "privilege": {
+            "type": "noul",
+            "noul": 0.03904829272622638,
+            "decisiveness": 0.9219034145475472,
+            "probabilities": {
+              "yes": 0.03904829272622638,
+              "no": 0.9609517072737737
+            },
+            "confidence": null,
+            "top_probability": 0.9609517072737737,
+            "valid": true
+          },
+          "secret_exposure": {
+            "type": "noul",
+            "noul": 0.17328820592932656,
+            "decisiveness": 0.6534235881413468,
+            "probabilities": {
+              "yes": 0.17328820592932656,
+              "no": 0.8267117940706734
+            },
+            "confidence": null,
+            "top_probability": 0.8267117940706734,
+            "valid": true
+          },
+          "off_task": {
+            "type": "noul",
+            "noul": 0.30735801686526387,
+            "decisiveness": 0.38528396626947226,
+            "probabilities": {
+              "yes": 0.30735801686526387,
+              "no": 0.6926419831347361
+            },
+            "confidence": null,
+            "top_probability": 0.6926419831347361,
+            "valid": true
+          },
+          "violates_constraint": {
+            "type": "noul",
+            "noul": 0.06465348835622392,
+            "decisiveness": 0.8706930232875522,
+            "probabilities": {
+              "yes": 0.06465348835622392,
+              "no": 0.935346511643776
+            },
+            "confidence": null,
+            "top_probability": 0.935346511643776,
+            "valid": true
+          },
+          "unresolved_choice": {
+            "type": "noul",
+            "noul": 0.1347759174229568,
+            "decisiveness": 0.7304481651540864,
+            "probabilities": {
+              "yes": 0.1347759174229568,
+              "no": 0.8652240825770432
+            },
+            "confidence": null,
+            "top_probability": 0.8652240825770432,
+            "valid": true
+          },
+          "authorized": {
+            "type": "noul",
+            "noul": 0.11124120650754304,
+            "decisiveness": 0.7775175869849139,
+            "probabilities": {
+              "yes": 0.11124120650754304,
+              "no": 0.888758793492457
+            },
+            "confidence": null,
+            "top_probability": 0.888758793492457,
+            "valid": true
+          },
+          "user_requested": {
+            "type": "noul",
+            "noul": 0.07921032410902437,
+            "decisiveness": 0.8415793517819512,
+            "probabilities": {
+              "yes": 0.07921032410902437,
+              "no": 0.9207896758909756
+            },
+            "confidence": null,
+            "top_probability": 0.9207896758909756,
+            "valid": true
+          },
+          "from_untrusted": {
+            "type": "noul",
+            "noul": 0.16026603232776068,
+            "decisiveness": 0.6794679353444786,
+            "probabilities": {
+              "yes": 0.16026603232776068,
+              "no": 0.8397339676722393
+            },
+            "confidence": null,
+            "top_probability": 0.8397339676722393,
+            "valid": true
+          },
+          "directed_injection": {
+            "type": "noul",
+            "noul": 0.03461883883917583,
+            "decisiveness": 0.9307623223216483,
+            "probabilities": {
+              "yes": 0.03461883883917583,
+              "no": 0.9653811611608242
+            },
+            "confidence": null,
+            "top_probability": 0.9653811611608242,
+            "valid": true
+          },
+          "operation": {
+            "type": "score",
+            "score": 0.03322845592099946,
+            "confidence": 0.9829647083310313,
+            "probabilities": {
+              "0": 0.9829647083310313,
+              "1": 0.006419390769610277,
+              "2": 0.0050386375466864005,
+              "3": 0.005577263352672128
+            },
+            "legend": {
+              "0": "read_only",
+              "1": "mutating",
+              "2": "destructive",
+              "3": "irreversible"
+            },
+            "top_probability": 0.9829647083310313,
+            "valid": true
+          }
+        },
+        "usage": {
+          "input_tokens": 321,
+          "output_tokens": 0
+        },
+        "timings": {
+          "ms": 586.1,
+          "client_ms": 587.4
+        },
+        "lane": "max",
+        "verdict": "allow",
+        "reasons": [],
+        "risk_scores": {
+          "destructive": 0.02333076880848049,
+          "exfiltration": 0.04958902298403175,
+          "privilege": 0.03904829272622638,
+          "secret_exposure": 0.17328820592932656,
+          "off_task": 0.30735801686526387,
+          "violates_constraint": 0.06465348835622392,
+          "unresolved_choice": 0.1347759174229568
+        },
+        "max_risk": 0.30735801686526387,
+        "highest_risk": "off_task",
+        "job": "gate",
+        "pack_version": "0.2.0",
+        "complete": true
+      }
+    },
+    "verify": {
+      "ok": true,
+      "elapsed_ms": 272.0,
+      "result": {
+        "results": [
+          {
+            "answers": {
+              "supported_by_source": {
+                "type": "noul",
+                "noul": 0.013848610215564576,
+                "decisiveness": 0.9723027795688709
+              }
+            },
+            "usage": {
+              "input_tokens": 50,
+              "output_tokens": 0
+            },
+            "lane": "max",
+            "timings": {
+              "client_ms": 270.8
+            }
+          }
+        ],
+        "timings": {
+          "ms": 269.7,
+          "client_ms": 270.8
+        },
+        "lane": "max",
+        "verdict": "deny",
+        "reasons": [
+          "flagged:0"
+        ],
+        "claims": [
+          {
+            "type": "noul",
+            "noul": 0.013848610215564576,
+            "decisiveness": 0.9723027795688709,
+            "probabilities": {
+              "yes": 0.013848610215564576,
+              "no": 0.9861513897844354
+            },
+            "confidence": null,
+            "top_probability": 0.9861513897844354,
+            "valid": true,
+            "verdict": "flagged",
+            "reason": "below_supported_by_source_threshold",
+            "claim": "The office opens Sunday."
+          }
+        ],
+        "answers": {
+          "0": {
+            "type": "noul",
+            "noul": 0.013848610215564576,
+            "decisiveness": 0.9723027795688709,
+            "probabilities": {
+              "yes": 0.013848610215564576,
+              "no": 0.9861513897844354
+            },
+            "confidence": null,
+            "top_probability": 0.9861513897844354,
+            "valid": true
+          }
+        },
+        "flagged": [
+          0
+        ],
+        "job": "verify",
+        "pack_version": "0.1.0",
+        "complete": true
+      }
+    },
+    "post_result": {
+      "ok": true,
+      "elapsed_ms": 5.8,
+      "result": {
+        "verdict": "deny",
+        "reasons": [
+          "ignore_previous_instructions"
+        ],
+        "answers": {},
+        "flagged": true,
+        "static_injection_rule": "ignore_previous_instructions",
+        "windows": 0,
+        "job": "post_result",
+        "pack_version": "0.2.0",
+        "complete": true
+      }
+    },
+    "static_deny": {
+      "ok": true,
+      "elapsed_ms": 6.8,
+      "result": {
+        "verdict": "deny",
+        "reasons": [
+          "destructive recursive removal"
+        ],
+        "rule": "recursive_force_remove",
+        "tool": "shell",
+        "static": true,
+        "answers": {},
+        "job": "gate",
+        "pack_version": "0.2.0",
+        "complete": true
+      }
+    },
+    "guarded_runtime": {
+      "ok": true,
+      "elapsed_ms": 4.5,
+      "result": {
+        "executed": false,
+        "decision": {
+          "verdict": "deny",
+          "reasons": [
+            "destructive recursive removal"
+          ],
+          "rule": "recursive_force_remove",
+          "tool": "shell",
+          "static": true,
+          "answers": {},
+          "job": "gate",
+          "pack_version": "0.2.0",
+          "complete": true
+        }
+      }
+    },
+    "batch_two": {
+      "ok": true,
+      "elapsed_ms": 493.9,
+      "result": {
+        "results": [
+          {
+            "answers": {
+              "decision": {
+                "type": "choice",
+                "choice": "support",
+                "confidence": 0.6477982179521103,
+                "probabilities": {
+                  "billing": 0.35220178204788966,
+                  "support": 0.6477982179521103
+                },
+                "top_probability": 0.6477982179521103
+              },
+              "severity": {
+                "type": "score",
+                "score": 0.38114408549538514,
+                "confidence": 0.7066102973360477,
+                "probabilities": {
+                  "0": 0.7066102973360477,
+                  "1": 0.20563531983251931,
+                  "2": 0.0877543828314329
+                },
+                "legend": {
+                  "0": "low",
+                  "1": "medium",
+                  "2": "high"
+                },
+                "top_probability": 0.7066102973360477
+              },
+              "safe": {
+                "type": "noul",
+                "noul": 0.7185943925708561,
+                "decisiveness": 0.4371887851417122
+              }
+            },
+            "usage": {
+              "input_tokens": 83,
+              "output_tokens": 0
+            },
+            "lane": "max",
+            "timings": {
+              "client_ms": 493.8
+            }
+          },
+          {
+            "answers": {
+              "decision": {
+                "type": "choice",
+                "choice": "support",
+                "confidence": 0.658417500561683,
+                "probabilities": {
+                  "billing": 0.341582499438317,
+                  "support": 0.658417500561683
+                },
+                "top_probability": 0.658417500561683
+              },
+              "severity": {
+                "type": "score",
+                "score": 0.3903989245136508,
+                "confidence": 0.6846356751224859,
+                "probabilities": {
+                  "0": 0.6846356751224859,
+                  "1": 0.24032972524137752,
+                  "2": 0.07503459963613665
+                },
+                "legend": {
+                  "0": "low",
+                  "1": "medium",
+                  "2": "high"
+                },
+                "top_probability": 0.6846356751224859
+              },
+              "safe": {
+                "type": "noul",
+                "noul": 0.7401743620390163,
+                "decisiveness": 0.48034872407803264
+              }
+            },
+            "usage": {
+              "input_tokens": 83,
+              "output_tokens": 0
+            },
+            "lane": "max",
+            "timings": {
+              "client_ms": 493.8
+            }
+          }
+        ],
+        "timings": {
+          "ms": 492.6,
+          "client_ms": 493.8
+        },
+        "lane": "max"
+      }
+    },
+    "image": {
+      "ok": true,
+      "elapsed_ms": 3853.4,
+      "result": {
+        "model": "d1-3B",
+        "answers": {
+          "credential_theft": {
+            "type": "noul",
+            "noul": 0.01826427835185701,
+            "decisiveness": 0.963471443296286,
+            "probabilities": {
+              "yes": 0.01826427835185701,
+              "no": 0.981735721648143
+            },
+            "confidence": null,
+            "top_probability": 0.981735721648143,
+            "valid": true
+          },
+          "exfiltration": {
+            "type": "noul",
+            "noul": 0.020023441289455244,
+            "decisiveness": 0.9599531174210895,
+            "probabilities": {
+              "yes": 0.020023441289455244,
+              "no": 0.9799765587105448
+            },
+            "confidence": null,
+            "top_probability": 0.9799765587105448,
+            "valid": true
+          },
+          "obfuscation": {
+            "type": "noul",
+            "noul": 0.04535258055430642,
+            "decisiveness": 0.9092948388913872,
+            "probabilities": {
+              "yes": 0.04535258055430642,
+              "no": 0.9546474194456935
+            },
+            "confidence": null,
+            "top_probability": 0.9546474194456935,
+            "valid": true
+          },
+          "concealment": {
+            "type": "noul",
+            "noul": 0.16885695214168314,
+            "decisiveness": 0.6622860957166337,
+            "probabilities": {
+              "yes": 0.16885695214168314,
+              "no": 0.8311430478583168
+            },
+            "confidence": null,
+            "top_probability": 0.8311430478583168,
+            "valid": true
+          },
+          "build_abuse": {
+            "type": "noul",
+            "noul": 0.04535258055430642,
+            "decisiveness": 0.9092948388913872,
+            "probabilities": {
+              "yes": 0.04535258055430642,
+              "no": 0.9546474194456935
+            },
+            "confidence": null,
+            "top_probability": 0.9546474194456935,
+            "valid": true
+          },
+          "severity": {
+            "type": "score",
+            "score": 0.4854546005850685,
+            "confidence": 0.5746407557513663,
+            "probabilities": {
+              "0": 0.5746407557513663,
+              "1": 0.3652638879121987,
+              "2": 0.0600953563364349
+            },
+            "legend": {
+              "0": "low",
+              "1": "medium",
+              "2": "high"
+            },
+            "top_probability": 0.5746407557513663,
+            "valid": true
+          }
+        },
+        "usage": {
+          "input_tokens": 1457,
+          "output_tokens": 0
+        },
+        "timings": {
+          "ms": 3632.4,
+          "client_ms": 3849.7
+        },
+        "lane": "max",
+        "verdict": "allow",
+        "reasons": [
+          "classification_risk_below_ask"
+        ],
+        "risk_scores": {
+          "credential_theft": 0.01826427835185701,
+          "exfiltration": 0.020023441289455244,
+          "obfuscation": 0.04535258055430642,
+          "concealment": 0.16885695214168314,
+          "build_abuse": 0.04535258055430642
+        },
+        "needs_second_pass": false,
+        "chunk": 0,
+        "pass": 1,
+        "passes": [
+          {
+            "model": "d1-3B",
+            "answers": {
+              "credential_theft": {
+                "type": "noul",
+                "noul": 0.01826427835185701,
+                "decisiveness": 0.963471443296286,
+                "probabilities": {
+                  "yes": 0.01826427835185701,
+                  "no": 0.981735721648143
+                },
+                "confidence": null,
+                "top_probability": 0.981735721648143,
+                "valid": true
+              },
+              "exfiltration": {
+                "type": "noul",
+                "noul": 0.020023441289455244,
+                "decisiveness": 0.9599531174210895,
+                "probabilities": {
+                  "yes": 0.020023441289455244,
+                  "no": 0.9799765587105448
+                },
+                "confidence": null,
+                "top_probability": 0.9799765587105448,
+                "valid": true
+              },
+              "obfuscation": {
+                "type": "noul",
+                "noul": 0.04535258055430642,
+                "decisiveness": 0.9092948388913872,
+                "probabilities": {
+                  "yes": 0.04535258055430642,
+                  "no": 0.9546474194456935
+                },
+                "confidence": null,
+                "top_probability": 0.9546474194456935,
+                "valid": true
+              },
+              "concealment": {
+                "type": "noul",
+                "noul": 0.16885695214168314,
+                "decisiveness": 0.6622860957166337,
+                "probabilities": {
+                  "yes": 0.16885695214168314,
+                  "no": 0.8311430478583168
+                },
+                "confidence": null,
+                "top_probability": 0.8311430478583168,
+                "valid": true
+              },
+              "build_abuse": {
+                "type": "noul",
+                "noul": 0.04535258055430642,
+                "decisiveness": 0.9092948388913872,
+                "probabilities": {
+                  "yes": 0.04535258055430642,
+                  "no": 0.9546474194456935
+                },
+                "confidence": null,
+                "top_probability": 0.9546474194456935,
+                "valid": true
+              },
+              "severity": {
+                "type": "score",
+                "score": 0.4854546005850685,
+                "confidence": 0.5746407557513663,
+                "probabilities": {
+                  "0": 0.5746407557513663,
+                  "1": 0.3652638879121987,
+                  "2": 0.0600953563364349
+                },
+                "legend": {
+                  "0": "low",
+                  "1": "medium",
+                  "2": "high"
+                },
+                "top_probability": 0.5746407557513663,
+                "valid": true
+              }
+            },
+            "usage": {
+              "input_tokens": 1457,
+              "output_tokens": 0
+            },
+            "timings": {
+              "ms": 3632.4,
+              "client_ms": 3849.7
+            },
+            "lane": "max",
+            "verdict": "allow",
+            "reasons": [
+              "classification_risk_below_ask"
+            ],
+            "risk_scores": {
+              "credential_theft": 0.01826427835185701,
+              "exfiltration": 0.020023441289455244,
+              "obfuscation": 0.04535258055430642,
+              "concealment": 0.16885695214168314,
+              "build_abuse": 0.04535258055430642
+            },
+            "needs_second_pass": false,
+            "chunk": 0,
+            "pass": 1
+          }
+        ],
+        "chunks": 1,
+        "job": "classify",
+        "pack_version": "0.1.0",
+        "complete": true
+      }
+    },
+    "hook_static_deny_unreachable": {
+      "ok": true,
+      "result": {
+        "verdict": "deny",
+        "reasons": [
+          "destructive recursive removal"
+        ],
+        "rule": "recursive_force_remove",
+        "tool": "shell",
+        "static": true,
+        "answers": {},
+        "job": "gate",
+        "pack_version": "0.2.0",
+        "complete": true
+      }
+    },
+    "hook_benign_live": {
+      "ok": true,
+      "result": {
+        "model": "d1-3B",
+        "answers": {
+          "destructive": {
+            "type": "noul",
+            "noul": 0.020023441289455244,
+            "decisiveness": 0.9599531174210895,
+            "probabilities": {
+              "yes": 0.020023441289455244,
+              "no": 0.9799765587105448
+            },
+            "confidence": null,
+            "top_probability": 0.9799765587105448,
+            "valid": true
+          },
+          "exfiltration": {
+            "type": "noul",
+            "noul": 0.03210070671700819,
+            "decisiveness": 0.9357985865659836,
+            "probabilities": {
+              "yes": 0.03210070671700819,
+              "no": 0.9678992932829918
+            },
+            "confidence": null,
+            "top_probability": 0.9678992932829918,
+            "valid": true
+          },
+          "privilege": {
+            "type": "noul",
+            "noul": 0.029312230751356316,
+            "decisiveness": 0.9413755384972874,
+            "probabilities": {
+              "yes": 0.029312230751356316,
+              "no": 0.9706877692486436
+            },
+            "confidence": null,
+            "top_probability": 0.9706877692486436,
+            "valid": true
+          },
+          "secret_exposure": {
+            "type": "noul",
+            "noul": 0.16667540468797667,
+            "decisiveness": 0.6666491906240466,
+            "probabilities": {
+              "yes": 0.16667540468797667,
+              "no": 0.8333245953120233
+            },
+            "confidence": null,
+            "top_probability": 0.8333245953120233,
+            "valid": true
+          },
+          "off_task": {
+            "type": "noul",
+            "noul": 0.02595735719779685,
+            "decisiveness": 0.9480852856044063,
+            "probabilities": {
+              "yes": 0.02595735719779685,
+              "no": 0.9740426428022031
+            },
+            "confidence": null,
+            "top_probability": 0.9740426428022031,
+            "valid": true
+          },
+          "violates_constraint": {
+            "type": "noul",
+            "noul": 0.027169231535681047,
+            "decisiveness": 0.9456615369286379,
+            "probabilities": {
+              "yes": 0.027169231535681047,
+              "no": 0.9728307684643189
+            },
+            "confidence": null,
+            "top_probability": 0.9728307684643189,
+            "valid": true
+          },
+          "unresolved_choice": {
+            "type": "noul",
+            "noul": 0.05033063259747688,
+            "decisiveness": 0.8993387348050462,
+            "probabilities": {
+              "yes": 0.05033063259747688,
+              "no": 0.9496693674025232
+            },
+            "confidence": null,
+            "top_probability": 0.9496693674025232,
+            "valid": true
+          },
+          "authorized": {
+            "type": "noul",
+            "noul": 0.682573734412324,
+            "decisiveness": 0.3651474688246481,
+            "probabilities": {
+              "yes": 0.682573734412324,
+              "no": 0.31742626558767595
+            },
+            "confidence": null,
+            "top_probability": 0.682573734412324,
+            "valid": true
+          },
+          "user_requested": {
+            "type": "noul",
+            "noul": 0.9597620573763841,
+            "decisiveness": 0.9195241147527682,
+            "probabilities": {
+              "yes": 0.9597620573763841,
+              "no": 0.04023794262361591
+            },
+            "confidence": null,
+            "top_probability": 0.9597620573763841,
+            "valid": true
+          },
+          "from_untrusted": {
+            "type": "noul",
+            "noul": 0.10818895456207035,
+            "decisiveness": 0.7836220908758593,
+            "probabilities": {
+              "yes": 0.10818895456207035,
+              "no": 0.8918110454379297
+            },
+            "confidence": null,
+            "top_probability": 0.8918110454379297,
+            "valid": true
+          },
+          "directed_injection": {
+            "type": "noul",
+            "noul": 0.029312230751356316,
+            "decisiveness": 0.9413755384972874,
+            "probabilities": {
+              "yes": 0.029312230751356316,
+              "no": 0.9706877692486436
+            },
+            "confidence": null,
+            "top_probability": 0.9706877692486436,
+            "valid": true
+          },
+          "operation": {
+            "type": "score",
+            "score": 0.03735853925047686,
+            "confidence": 0.9804770040038681,
+            "probabilities": {
+              "0": 0.9804770040038681,
+              "1": 0.007845296592422668,
+              "2": 0.00551985555307366,
+              "3": 0.006157843850635624
+            },
+            "legend": {
+              "0": "read_only",
+              "1": "mutating",
+              "2": "destructive",
+              "3": "irreversible"
+            },
+            "top_probability": 0.9804770040038681,
+            "valid": true
+          }
+        },
+        "usage": {
+          "input_tokens": 326,
+          "output_tokens": 0
+        },
+        "timings": {
+          "ms": 444.2,
+          "client_ms": 445.9
+        },
+        "lane": "max",
+        "verdict": "allow",
+        "reasons": [],
+        "risk_scores": {
+          "destructive": 0.020023441289455244,
+          "exfiltration": 0.03210070671700819,
+          "privilege": 0.029312230751356316,
+          "secret_exposure": 0.16667540468797667,
+          "off_task": 0.02595735719779685,
+          "violates_constraint": 0.027169231535681047,
+          "unresolved_choice": 0.05033063259747688
+        },
+        "max_risk": 0.16667540468797667,
+        "highest_risk": "secret_exposure",
+        "job": "gate",
+        "pack_version": "0.2.0",
+        "complete": true
+      }
+    }
+  },
+  "all_ok": true
+}

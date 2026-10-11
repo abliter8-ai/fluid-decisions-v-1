@@ -1,0 +1,27 @@
+# Example systemd user unit for the fluid-decisions hook daemon (IP-006 section 4).
+# Template only; this project installs nothing. Copy to
+# ~/.config/systemd/user/fluid-hookd.service, replace the /path/to placeholders,
+# then:
+#     systemctl --user daemon-reload
+#     systemctl --user enable --now fluid-hookd.service
+# The daemon holds one warm client and serves pre_tool and post_result over the
+# Unix socket; the runtime hook (fluid.hook) connects to it and falls back
+# in-process when it is absent. No TCP port is opened.
+[Unit]
+Description=fluid-decisions hook daemon (pre-tool and post-result gate)
+After=network.target
+
+[Service]
+Type=simple
+Environment=FLUID_DATA_DIR=%h/.fluid-decisions
+# Optional explicit socket path; defaults to FLUID_DATA_DIR/hookd.sock:
+# Environment=FLUID_HOOK_SOCKET=%h/.fluid-decisions/hookd.sock
+# Lane endpoints: set FD_MAX_URL and FD_OMNI_URL, or FLUID_LANES_FILE:
+Environment=FLUID_LANES_FILE=%h/.fluid-decisions/lanes.yaml
+WorkingDirectory=/path/to/fluid-decisions
+ExecStart=/path/to/venv/bin/python -m fluid.hookd
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=default.target

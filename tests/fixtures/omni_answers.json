@@ -1,0 +1,40 @@
+{
+  "answers": {
+    "decision": {
+      "choice": "billing",
+      "confidence": 0.5757365226745605,
+      "probabilities": {
+        "billing": 0.5757365226745605,
+        "support": 0.42426350712776184
+      },
+      "type": "choice"
+    },
+    "safe": {
+      "noul": 0.12707924842834473,
+      "type": "noul"
+    },
+    "severity": {
+      "confidence": 0.6762889623641968,
+      "legend": {
+        "0": "low",
+        "1": "medium",
+        "2": "high"
+      },
+      "probabilities": {
+        "0": 0.1849030703306198,
+        "1": 0.6762889623641968,
+        "2": 0.13880793750286102
+      },
+      "score": 0.9539048373699188,
+      "type": "score"
+    }
+  },
+  "model": "d1-omni-600m",
+  "timings": {
+    "ms": 45.8
+  },
+  "usage": {
+    "input_tokens": 139,
+    "output_tokens": 0
+  }
+}

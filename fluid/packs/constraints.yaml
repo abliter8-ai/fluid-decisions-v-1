@@ -1,0 +1,25 @@
+version: "0.1.0"
+# Constraints on a candidate (IP-009 / IDEA-002). One item per constraint, state
+# {candidate, constraint: rule}, two questions folded in policy by
+# evaluate_constraints. Each constraint is one fact; the verdict is composed in
+# code. No label proposes a fix (IDEA-002's rule). Lines are uncalibrated.
+questions:
+  held: {type: noul, instructions: "Is this constraint satisfied by the candidate?"}
+  severity:
+    type: score
+    criteria: [minor, moderate, major, critical]
+    instructions: "If this constraint were not satisfied, how severe would that failure be?"
+policy:
+  calibration: uncalibrated
+  budget:
+    calibration: uncalibrated
+    budget_margin: 2.0
+    max_budget_s: 10
+    floor_s: 2.0
+  severity_levels: [minor, moderate, major, critical]
+  lines:
+    # held at or above pass_line holds; below fail_line fails; between is
+    # uncertain, as is any held whose decisiveness is below min_decisiveness.
+    pass_line: 0.70
+    fail_line: 0.30
+    min_decisiveness: 0.40

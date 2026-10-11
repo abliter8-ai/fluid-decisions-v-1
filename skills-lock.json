@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "liquid-d1": {
+      "source": "Liquid4All/liquid-d1-skills",
+      "sourceType": "github",
+      "skillPath": "skills/liquid-d1/SKILL.md",
+      "computedHash": "619885398a4831931aa4bcebb7d868308f67cca2b4fcf98a21456042e1dce5dc"
+    }
+  }
+}

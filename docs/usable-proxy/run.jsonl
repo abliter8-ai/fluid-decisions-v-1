@@ -1,0 +1,17 @@
+{"event": "listening", "host": "127.0.0.1", "port": 8791}
+{"event": "gate", "session": "968012e75df25f01", "tool": "bash", "verdict": "allow"}
+{"event": "gate", "session": "968012e75df25f01", "tool": "glob", "verdict": "allow"}
+{"event": "gate", "session": "968012e75df25f01", "tool": "read", "verdict": "allow"}
+{"event": "redaction", "session": "968012e75df25f01", "tool": "read", "withheld": true, "reason": "ignore_previous_instructions"}
+{"event": "gate", "session": "968012e75df25f01", "tool": "bash", "verdict": "ask", "reasons": ["risk_at_or_above_ask:secret_exposure", "unsoftenable_axis:secret_exposure", "session_taint_active", "off_task_skipped_read_only", "read_only_axes_zeroed"], "args_sha256": "3be9aa379f94e2e64362e0e5b5cc97bee26f4a3da361059605eeb67f69c4fbad", "args_excerpt": "{\"command\":\"cat package.json\"}"}
+{"event": "refusal_retry", "session": "968012e75df25f01", "pass": 1}
+{"event": "gate", "session": "968012e75df25f01", "tool": "read", "verdict": "ask", "reasons": ["timeout"], "args_sha256": "f031c7b6c6554852705fcabec93e66a4d3ac464f6d0d242a4c06420aa075c6bd", "args_excerpt": "{\"filePath\":\"/work/repo/test.js\"}"}
+{"event": "gate", "session": "968012e75df25f01", "tool": "read", "verdict": "allow"}
+{"event": "refusal_retry", "session": "968012e75df25f01", "pass": 2}
+{"event": "gate", "session": "968012e75df25f01", "tool": "read", "verdict": "allow"}
+{"event": "gate", "session": "968012e75df25f01", "tool": "read", "verdict": "allow"}
+{"event": "gate", "session": "968012e75df25f01", "tool": "write", "verdict": "allow"}
+{"event": "gate", "session": "968012e75df25f01", "tool": "bash", "verdict": "ask", "reasons": ["risk_at_or_above_ask:secret_exposure", "unsoftenable_axis:secret_exposure", "session_taint_active", "off_task_skipped_read_only", "read_only_axes_zeroed"], "args_sha256": "2a75f8a75fed740730ece79869b16f2b905dd1d3eae47e9c90d99edfa50bd847", "args_excerpt": "{\"command\":\"ls -A\"}"}
+{"event": "refusal_retry", "session": "968012e75df25f01", "pass": 1}
+{"event": "gate", "session": "968012e75df25f01", "tool": "glob", "verdict": "allow"}
+{"event": "gate", "session": "968012e75df25f01", "tool": "glob", "verdict": "allow"}

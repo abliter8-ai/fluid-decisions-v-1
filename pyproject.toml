@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=80"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fluid-decisions"
+version = "0.1.0"
+description = "Typed d1 decisions with policy, runtime hooks, CLI and MCP"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["httpx==0.28.1", "PyYAML==6.0.3"]
+
+[project.optional-dependencies]
+mcp = ["mcp==2.3.0"]
+agentdojo = ["agentdojo==0.1.35"]
+serve = ["huggingface-hub==2.2.0", "transformers==5.19.0", "torch==2.14.1", "torchvision==0.29.1", "Pillow==12.3.0", "soundfile==0.14.0"]
+dev = ["pytest==9.1.1", "ruff==0.17.0", "mypy==2.4.0", "types-PyYAML==6.0.12.20260906", "build==1.6.1"]
+
+[project.scripts]
+fluid = "fluid.cli:main"
+fluid-mcp = "fluid.mcp_server:main"
+
+[tool.setuptools.packages.find]
+include = ["fluid*"]
+
+[tool.setuptools.package-data]
+fluid = ["lanes.yaml", "packs/*.yaml"]
+
+[tool.setuptools.data-files]
+"share/fluid-decisions" = ["config/models.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["live: opt-in real endpoint checks (FD_LIVE=1)"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
+
+[tool.mypy]
+python_version = "3.11"
+files = ["fluid"]
+check_untyped_defs = true
+ignore_missing_imports = true

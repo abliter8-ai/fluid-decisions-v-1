@@ -1,0 +1,245 @@
+{
+  "plan": "IP-003-UNSCORED-RESULTS",
+  "generated_at": "2026-10-09T22:01:00.939150+00:00",
+  "scope": "Independent plan acceptance verification; code read-only, no serving, downloads or fleet mutations.",
+  "privacy": {
+    "sanitized": true,
+    "endpoints": "Role labels only; private configuration values omitted.",
+    "raw_outputs": "Retained outside the repository; identifying paths and process metadata omitted."
+  },
+  "offline": {
+    "environment_cleared": [
+      "FD_LIVE",
+      "FD_MAX_URL",
+      "FD_OMNI_URL",
+      "FLUID_LANES_FILE",
+      "FD_POST_TIMEOUT",
+      "FD_FIRST_TIMEOUT",
+      "FD_TIMEOUT",
+      "FLUID_AUDIT_STATE"
+    ],
+    "pytest": {
+      "command": ".venv/bin/python -m pytest -q",
+      "passed": 110,
+      "skipped": 4,
+      "subtests_passed": 3,
+      "elapsed_s": 1.35,
+      "exit_code": 0
+    },
+    "ruff": {
+      "command": ".venv/bin/python -m ruff check fluid scripts tests examples",
+      "exit_code": 0
+    },
+    "mypy": {
+      "command": ".venv/bin/python -m mypy fluid",
+      "source_files": 10,
+      "exit_code": 0
+    },
+    "build": {
+      "command": ".venv/bin/python -m build",
+      "artifacts": [
+        "wheel",
+        "source distribution"
+      ],
+      "exit_code": 0
+    }
+  },
+  "acceptance_review": {
+    "pending_lifecycle": "Tests and code cover metadata-only pending records, expiry, clearance, carry-over protection, exact-hash clean/flagged resolution and repeated hashes.",
+    "result_release": "Tests cover timeout/lane-down release with pending persistence, withholding policy, and persistence failure withholding.",
+    "budget": "Measured warmup shape, budget floor/cap/override/fallback and pre-submission rejection implemented in approved scope.",
+    "recheck": "Original UTF-8 content supplied by file or stdin, preserving line endings; mismatch rejected before a model request.",
+    "static_and_model_flags": "Existing flag classification and withholding maintained.",
+    "privacy": "Owned evidence contains role labels, synthetic-content length/hash and relative repository paths only. Private endpoint values and raw runtime paths excluded."
+  },
+  "live": {
+    "status": "passed",
+    "lane_roles": [
+      "text",
+      "audio"
+    ],
+    "module": {
+      "command": ".venv/bin/python -m pytest tests/test_live.py -q -s",
+      "passed": 4,
+      "elapsed_s": 19.35,
+      "exit_code": 0,
+      "text_warm_ms": 129.1,
+      "audio_warm_ms": 30.3,
+      "warm_budget_ms": 1000,
+      "text_cost_model": {
+        "intercept_ms": 89.33333333333326,
+        "ms_per_char": 0.1359888888888889
+      },
+      "post_results": [
+        {
+          "characters": 12000,
+          "elapsed_ms": 1986.0,
+          "checked": true,
+          "verdict": "allow"
+        },
+        {
+          "characters": 24000,
+          "elapsed_ms": 4224.5,
+          "checked": true,
+          "verdict": "allow"
+        }
+      ]
+    },
+    "hardening_smoke": {
+      "script": "scripts/smoke_hardening.py",
+      "exit_code": 0,
+      "checks": {
+        "taint_pair_measured": true,
+        "benign_read": true,
+        "session_assessed": true,
+        "mutating_floor": true,
+        "hook_context": true,
+        "clear": true,
+        "model_after_clear": true,
+        "carry_over_lane_down": true,
+        "short_injection_lane_down": true,
+        "long_result": true,
+        "pre_large_gate_warmed": true,
+        "largest_permitted": true,
+        "immediate_gate_after_largest": true,
+        "pending_released": true,
+        "pending_floor": true,
+        "pending_carryover_lane_down": true,
+        "recheck_resolves_pending": true,
+        "recheck_clears_floor": true,
+        "clearance_audited": true
+      },
+      "warmup": {
+        "lane": "text",
+        "elapsed_ms": 2349.0,
+        "reported_ms": 2349.0,
+        "cost_model": {
+          "intercept_ms": 82.83333333333348,
+          "ms_per_char": 0.1366222222222222
+        }
+      },
+      "largest_permitted": {
+        "lane": "text",
+        "modeled_max_chars": 104685,
+        "largest_scored_chars": 104685,
+        "budget": {
+          "budget_s": 29.99986133333333,
+          "budget_source": "measured",
+          "expected_ms": 14999.930666666665,
+          "exceeds_budget": false
+        },
+        "elapsed_ms": 18339.8,
+        "checked": true,
+        "reason": ""
+      },
+      "immediate_gate": {
+        "lane": "text",
+        "elapsed_ms": 359.3,
+        "verdict": "allow"
+      },
+      "pending_read": {
+        "lane": "text",
+        "chars": 20000,
+        "executed": true,
+        "verdict": "allow",
+        "checked": false,
+        "reason": "exceeds_budget"
+      },
+      "pending_floor": {
+        "write_verdict": "ask",
+        "write_reasons": [
+          "risk_at_or_above_ask:destructive",
+          "user_requested_softened_ask",
+          "session_pending_check",
+          "session_taint_active"
+        ],
+        "read_has_answers": true
+      },
+      "file_recheck": {
+        "returncode": 0,
+        "checked": true,
+        "resolved": true,
+        "verdict": "allow"
+      }
+    },
+    "manual_actual_file_read_then_write_and_stdin_recheck": {
+      "passed": true,
+      "lane": "text",
+      "fixture": {
+        "bytes": 20000,
+        "sha256": "ac48dcb7ad8f854ea167a1f98ed43572d78c6cd67e0ae206d176c19a112ff695",
+        "actual_file_read": true,
+        "line_endings_preserved": true
+      },
+      "released_read": {
+        "executed": true,
+        "checked": false,
+        "result_withheld": false,
+        "check": {
+          "status": "unscored",
+          "reason": "exceeds_budget",
+          "statically_checked": true,
+          "model_scored": false,
+          "budget_s": 1e-06,
+          "budget_source": "override",
+          "expected_ms": 2871.355555555556,
+          "exceeds_budget": true
+        }
+      },
+      "pending_benign_read": {
+        "verdict": "allow",
+        "answers_present": true,
+        "reasons": [
+          "session_taint_active"
+        ]
+      },
+      "stdin_hook_write": {
+        "verdict": "ask",
+        "reasons": [
+          "risk_at_or_above_ask:destructive",
+          "user_requested_softened_ask",
+          "session_pending_check",
+          "session_taint_active"
+        ]
+      },
+      "stdin_recheck": {
+        "exit_code": 0,
+        "verdict": "allow",
+        "checked": true,
+        "resolved": true
+      },
+      "no_pending_after_recheck": true,
+      "clean_resolution_removes_pending_carry": true,
+      "raw_text_absent_from_ledger": true
+    },
+    "measurement_note": "Independent run values retained separately from implementation evidence. Largest permitted size is modeled for this run and synthetic workload, not a general throughput guarantee. The manual pending state was forced with an explicit tiny post-result override before submission; this is not a simulated successful model score."
+  },
+  "findings": [],
+  "verdict": "approve",
+  "source_sha256": {
+    "fluid/audit.py": "822b99ad8e54bc56a7622c76d69a694bdc3002596f8aa28f632aa0c3c43238ca",
+    "fluid/cli.py": "d1bab6e76b488baf982bde79bf85505ff7c29c18966e211c2325ad8a0905652d",
+    "fluid/client.py": "57c4018427bc84ac5887684ac650ffb54cf8281e1c8904b445b5556c06d85c0d",
+    "fluid/ledger.py": "3dd2f04834a825d65de8735a2240e48cbeca52abc88dbed5636101ca506f9782",
+    "fluid/packs/gate.yaml": "84aab57245d63c22dbc1181dd7554b92a24d1051e193ae92b5fef06206748e11",
+    "fluid/policy.py": "090772dcd276df137158ee94da252530bc96722ea2a60a5bd6fa0dd9493fb1ea",
+    "fluid/service.py": "e1c552ab9040a21a31e5dc22c3a73488cbd9cfd1c156e9aba075ff828a048ae3",
+    "scripts/smoke_hardening.py": "61f62e2bf8aad1ba8ef924dd0ea0d8c196ae77c5db9521cdf38bd06f9dc8b886",
+    "tests/test_live.py": "91a240d1cf5672b59caa7da49fe588ca9555eb3f29b834234e941cf8e620544e"
+  },
+  "completion_context": {
+    "status": "verified",
+    "report": "docs/c-completion_reports/CR-003_Unscored_Results.md",
+    "ip_status": "complete",
+    "implementation_commit": "bf6a07d",
+    "documentation": [
+      "AGENTS.md",
+      "README.md",
+      "docs/USAGE.md",
+      ".env.example"
+    ],
+    "assessment": "Report records matching independent offline, live and manual evidence, keeps each cost-model run separate, identifies unscored results as statically checked but not model-scored, and states estimation and cancellation limitations. No existing known-issues record required an update. Final documentation commit and push remain delivery work."
+  },
+  "implementation_commit": "bf6a07d24bd58723197ed7ab030f97e532619c3a",
+  "plan_alignment": "Matches approved IP003 and its recorded original-content recheck, resolution and persistence clarifications. No new pack, cancellation implementation or threshold calibration."
+}

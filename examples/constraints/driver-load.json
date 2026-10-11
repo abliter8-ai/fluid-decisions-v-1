@@ -1,0 +1,15 @@
+{
+  "candidate": {
+    "driver": {"id": "D-204", "licence_class": "C1", "hours_on_duty_today": 6.5, "last_rest_hours": 11},
+    "load": {"id": "L-5581", "weight_kg": 2400, "vehicle_class_required": "C1", "delivery_window": "09:00-12:00"},
+    "assignment": {"depart": "08:10", "eta": "10:30"}
+  },
+  "constraints": [
+    {"id": "hours_cap", "rule": "The driver's hours on duty today, plus this assignment, stay within an 11-hour cap."},
+    {"id": "rest", "rule": "The driver had at least 10 hours of rest before this assignment."},
+    {"id": "vehicle_class", "rule": "The driver's licence class covers the vehicle class the load requires."},
+    {"id": "delivery_window", "rule": "The assignment's ETA falls within the load's delivery window."},
+    {"id": "licence_valid", "rule": "The driver holds a licence valid for this load."},
+    {"id": "weight", "rule": "The load weight is within the vehicle's limit of 3500 kg."}
+  ]
+}

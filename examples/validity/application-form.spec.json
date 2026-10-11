@@ -1,0 +1,11 @@
+{
+  "types": ["membership_application", "invoice", "incident_report"],
+  "checks": [
+    {"id": "name_present", "rule": "The applicant's name is filled in."},
+    {"id": "dated", "rule": "The form carries a date of application."},
+    {"id": "tier_chosen", "rule": "A membership tier is selected."},
+    {"id": "signed", "rule": "The form is signed by the applicant."},
+    {"id": "emergency_contact", "rule": "An emergency contact with a phone number is given."}
+  ],
+  "completeness_levels": ["empty", "partial", "complete"]
+}

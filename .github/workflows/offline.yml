@@ -1,0 +1,29 @@
+name: offline
+on:
+  push:
+  pull_request:
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install (offline deps + dev tools)
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]" || python -m pip install -e . ruff mypy pytest
+      - name: ruff
+        run: ruff check fluid tests
+      - name: mypy
+        run: mypy fluid
+      - name: tests (no network)
+        env:
+          FD_MAX_URL: ""
+          FD_OMNI_URL: ""
+          FLUID_LANES_FILE: ""
+        run: pytest -q

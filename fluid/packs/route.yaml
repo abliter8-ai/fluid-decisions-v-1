@@ -1,0 +1,18 @@
+version: "0.2.0"
+questions:
+  destination:
+    type: choice
+    instructions: "Which destination should handle this state?"
+    criteria: {local: "Local fast path", reasoner: "Reasoning path", human: "Human review"}
+  escalate: {type: noul, instructions: "Should this be escalated to human review?"}
+  completeness: {type: score, instructions: "Is the state complete enough to route?", criteria: [missing, partial, complete]}
+policy:
+  calibration: uncalibrated
+  budget:
+    calibration: uncalibrated
+    budget_margin: 2.0
+    max_budget_s: 10
+    floor_s: 2.0
+  destinations: {local: "Local fast path", reasoner: "Reasoning path", human: "Human review"}
+  completeness: {complete_index: 2}
+  thresholds: {verdict: {escalate: 0.70}}

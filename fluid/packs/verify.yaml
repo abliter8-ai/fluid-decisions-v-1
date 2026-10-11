@@ -1,0 +1,12 @@
+version: "0.2.0"
+questions:
+  supported_by_source: {type: noul, instructions: "Is this claim supported by the supplied source?"}
+policy:
+  calibration: uncalibrated
+  budget:
+    calibration: uncalibrated
+    budget_margin: 2.0
+    max_budget_s: 10
+    floor_s: 2.0
+  thresholds: {verdict: {supported_by_source: 0.70}}
+  preserve_claim: true

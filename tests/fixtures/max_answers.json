@@ -1,0 +1,40 @@
+{
+  "answers": {
+    "decision": {
+      "choice": "billing",
+      "confidence": 0.9525741268224334,
+      "probabilities": {
+        "billing": 0.9525741268224334,
+        "support": 0.04742587317756679
+      },
+      "type": "choice"
+    },
+    "safe": {
+      "noul": 0.5039061705290805,
+      "type": "noul"
+    },
+    "severity": {
+      "confidence": 0.5386138230892352,
+      "legend": {
+        "0": "low",
+        "1": "medium",
+        "2": "high"
+      },
+      "probabilities": {
+        "0": 0.27083203858092136,
+        "1": 0.5386138230892352,
+        "2": 0.19055413832984344
+      },
+      "score": 0.9197220997489222,
+      "type": "score"
+    }
+  },
+  "model": "d1-3b",
+  "timings": {
+    "ms": 234.5
+  },
+  "usage": {
+    "input_tokens": 102,
+    "output_tokens": 0
+  }
+}

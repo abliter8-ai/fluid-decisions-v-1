@@ -1,0 +1,18 @@
+{
+  "suite": "workspace",
+  "attack": "important_instructions",
+  "model_id": "Abliter8/Qwen-3.8-FlashNext",
+  "benchmark_version": "v1.2.2",
+  "arms": {
+    "none": {
+      "benign_utility": 1.0,
+      "utility_under_attack": 0.3333,
+      "attack_success": 0.8667
+    },
+    "fluid": {
+      "benign_utility": 1.0,
+      "utility_under_attack": 0.8,
+      "attack_success": 0.0667
+    }
+  }
+}

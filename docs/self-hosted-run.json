@@ -1,0 +1,253 @@
+{
+  "redacted": true,
+  "scratch": "/var/folders/y0/bpsgw_m51pb9h66pmxv7fvvw0000gn/T/fluid-ip002-adapter-a8q9cyxh",
+  "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
+  "python": "3.14.8 (main, Sep 30 2026, 17:55:09) [Clang 21.0.0 (clang-2100.3.34.2)]",
+  "started_at": 1791580991.9029682,
+  "before": {
+    "sha256": {
+      "max_unit": "872c79667580daf606c71ee2ea99c2067cabf90794c1572e5a112d327383b480",
+      "server_source": "c7036b8dcd24c755ab177bcb3b2445de18c96133794ae2084a4be39dfb6dafb9",
+      "registry": "03b30a62037df9340e24df7a7cca0d70f416c41081ab7529f911f53cba7bb74a"
+    },
+    "max_unit": {
+      "exit": 0,
+      "stdout": "{\n\t\"StandardOutPath\" = \"<repo>/.local/log/d1-decision.log\";\n\t\"LimitLoadToSessionType\" = \"Aqua\";\n\t\"StandardErrorPath\" = \"<repo>/.local/log/d1-decision.log\";\n\t\"Label\" = \"com.ruin.d1-decision\";\n\t\"OnDemand\" = false;\n\t\"LastExitStatus\" = 0;\n\t\"PID\" = 667;\n\t\"Program\" = \"<repo>/Developer/node-1-setup/services/d1-decision/.venv/bin/python\";\n\t\"ProgramArguments\" = (\n\t\t\"<repo>/Developer/node-1-setup/services/d1-decision/.venv/bin/python\";\n\t\t\"<repo>/Developer/node-1-setup/services/d1-decision/d1_server.py\";\n\t\t\"--model\";\n\t\t\"<repo>/models/LiquidAI__d1-3B\";\n\t\t\"--host\";\n\t\t\"203.0.113.0\";\n\t\t\"--port\";\n\t\t\"8774\";\n\t\t\"--dtype\";\n\t\t\"float16\";\n\t);\n};\n",
+      "stderr": ""
+    },
+    "omni_unit": {
+      "exit": 0,
+      "stdout": "ActiveState=active\nSubState=running\nFragmentPath=/etc/systemd/system/d1-omni.service\nMainPID=2075\nb8f0aa3288fad8ef137c5894c476d031f0bd7fe3a35cf5438f2d60f39c3135bb  /etc/systemd/system/d1-omni.service\n",
+      "stderr": ""
+    },
+    "omlx": {
+      "exit": 0,
+      "stdout": "671\n",
+      "stderr": ""
+    },
+    "max_health": {
+      "status": 200,
+      "elapsed_ms": 13.5,
+      "response": {
+        "status": "ok",
+        "model": "d1-3b",
+        "checkpoint": "<repo>/models/LiquidAI__d1-3B",
+        "revision": "da1fe36a861f24690f27f622dca1d8688503d113",
+        "device": "mps",
+        "dtype": "float16",
+        "modalities": [
+          "text",
+          "image"
+        ],
+        "loaded": true,
+        "busy": false,
+        "load_s": 4.9,
+        "warm_s": 6.7,
+        "requests_total": 72,
+        "decisions_total": 433,
+        "endpoints": [
+          "/v1/systemone",
+          "/v1/systemone/batch",
+          "/v1/models",
+          "/health"
+        ]
+      },
+      "validation_errors": []
+    },
+    "omni_health": {
+      "status": 200,
+      "elapsed_ms": 11.2,
+      "response": {
+        "status": "ok",
+        "model": "d1-omni-600m",
+        "checkpoint": "/srv/services/d1-omni/weights/LiquidAI__d1-omni-600M",
+        "revision": "414f8d6438174f5b2133a9c21a478fc42625e308",
+        "device": "cuda",
+        "dtype": "float16",
+        "modalities": [
+          "text",
+          "image",
+          "audio"
+        ],
+        "loaded": true,
+        "busy": false,
+        "load_s": 3.9,
+        "warm_s": 12.3,
+        "requests_total": 16,
+        "decisions_total": 56,
+        "endpoints": [
+          "/v1/systemone",
+          "/v1/systemone/batch",
+          "/v1/models",
+          "/health"
+        ]
+      },
+      "validation_errors": []
+    }
+  },
+  "memory_before": {
+    "vm_stat": {
+      "exit": 0,
+      "stdout": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    14533.\nPages active:                                1621582.\nPages inactive:                              1601742.\nPages speculative:                             20020.\nPages throttled:                                   0.\nPages wired down:                             229381.\nPages purgeable:                                8281.\n\"Translation faults\":                     1515548114.\nPages copy-on-write:                       142780480.\nPages zero filled:                         523138745.\nPages reactivated:                           7751808.\nPages purged:                                4091905.\nFile-backed pages:                            601028.\nAnonymous pages:                             2642316.\nPages stored in compressor:                  2255642.\nPages occupied by compressor:                 658095.\nDecompressions:                             19534041.\nCompressions:                               27254593.\nPageins:                                    45743816.\nPageouts:                                     146102.\nSwapins:                                      137401.\nSwapouts:                                     322080.\n",
+      "stderr": ""
+    },
+    "pressure": {
+      "exit": 0,
+      "stdout": "The system has 68719476736 (4194304 pages with a page size of 16384).\nSystem-wide memory free percentage: 78%\n",
+      "stderr": ""
+    }
+  },
+  "port_initially_closed": true,
+  "command": [
+    ".venv-selfhost/bin/python",
+    "scripts/serve_model.py",
+    "--model",
+    "d1-3B",
+    "--model-path",
+    "models/d1-3B",
+    "--port",
+    "8776",
+    "--device",
+    "mps"
+  ],
+  "offline_model_loading": true,
+  "load_seconds": 22.656,
+  "adapter_health": {
+    "status": 200,
+    "elapsed_ms": 4.0,
+    "response": {
+      "status": "ok",
+      "loaded": true,
+      "model": "d1-3B",
+      "revision": "051bcc464b01b9f92942b364d9586b0ef5912432",
+      "device": "mps:0",
+      "dtype": "float16",
+      "modalities": [
+        "text",
+        "image"
+      ]
+    },
+    "validation_errors": []
+  },
+  "rss_after_load": {
+    "exit": 0,
+    "stdout": "787520\n",
+    "stderr": ""
+  },
+  "smoke_exit": 0,
+  "contract_passed": true,
+  "warm_latency_ms": 130.7,
+  "rss_after_workflows": {
+    "exit": 0,
+    "stdout": "992768\n",
+    "stderr": ""
+  },
+  "elapsed_seconds": 36.072,
+  "port_closed_after": true,
+  "after": {
+    "sha256": {
+      "max_unit": "872c79667580daf606c71ee2ea99c2067cabf90794c1572e5a112d327383b480",
+      "server_source": "c7036b8dcd24c755ab177bcb3b2445de18c96133794ae2084a4be39dfb6dafb9",
+      "registry": "03b30a62037df9340e24df7a7cca0d70f416c41081ab7529f911f53cba7bb74a"
+    },
+    "max_unit": {
+      "exit": 0,
+      "stdout": "{\n\t\"StandardOutPath\" = \"<repo>/.local/log/d1-decision.log\";\n\t\"LimitLoadToSessionType\" = \"Aqua\";\n\t\"StandardErrorPath\" = \"<repo>/.local/log/d1-decision.log\";\n\t\"Label\" = \"com.ruin.d1-decision\";\n\t\"OnDemand\" = false;\n\t\"LastExitStatus\" = 0;\n\t\"PID\" = 667;\n\t\"Program\" = \"<repo>/Developer/node-1-setup/services/d1-decision/.venv/bin/python\";\n\t\"ProgramArguments\" = (\n\t\t\"<repo>/Developer/node-1-setup/services/d1-decision/.venv/bin/python\";\n\t\t\"<repo>/Developer/node-1-setup/services/d1-decision/d1_server.py\";\n\t\t\"--model\";\n\t\t\"<repo>/models/LiquidAI__d1-3B\";\n\t\t\"--host\";\n\t\t\"203.0.113.0\";\n\t\t\"--port\";\n\t\t\"8774\";\n\t\t\"--dtype\";\n\t\t\"float16\";\n\t);\n};\n",
+      "stderr": ""
+    },
+    "omni_unit": {
+      "exit": 0,
+      "stdout": "ActiveState=active\nSubState=running\nFragmentPath=/etc/systemd/system/d1-omni.service\nMainPID=2075\nb8f0aa3288fad8ef137c5894c476d031f0bd7fe3a35cf5438f2d60f39c3135bb  /etc/systemd/system/d1-omni.service\n",
+      "stderr": ""
+    },
+    "omlx": {
+      "exit": 0,
+      "stdout": "671\n",
+      "stderr": ""
+    },
+    "max_health": {
+      "status": 200,
+      "elapsed_ms": 2.1,
+      "response": {
+        "status": "ok",
+        "model": "d1-3b",
+        "checkpoint": "<repo>/models/LiquidAI__d1-3B",
+        "revision": "da1fe36a861f24690f27f622dca1d8688503d113",
+        "device": "mps",
+        "dtype": "float16",
+        "modalities": [
+          "text",
+          "image"
+        ],
+        "loaded": true,
+        "busy": false,
+        "load_s": 4.9,
+        "warm_s": 6.7,
+        "requests_total": 72,
+        "decisions_total": 433,
+        "endpoints": [
+          "/v1/systemone",
+          "/v1/systemone/batch",
+          "/v1/models",
+          "/health"
+        ]
+      },
+      "validation_errors": []
+    },
+    "omni_health": {
+      "status": 200,
+      "elapsed_ms": 6.1,
+      "response": {
+        "status": "ok",
+        "model": "d1-omni-600m",
+        "checkpoint": "/srv/services/d1-omni/weights/LiquidAI__d1-omni-600M",
+        "revision": "414f8d6438174f5b2133a9c21a478fc42625e308",
+        "device": "cuda",
+        "dtype": "float16",
+        "modalities": [
+          "text",
+          "image",
+          "audio"
+        ],
+        "loaded": true,
+        "busy": false,
+        "load_s": 3.9,
+        "warm_s": 12.3,
+        "requests_total": 16,
+        "decisions_total": 56,
+        "endpoints": [
+          "/v1/systemone",
+          "/v1/systemone/batch",
+          "/v1/models",
+          "/health"
+        ]
+      },
+      "validation_errors": []
+    }
+  },
+  "fleet_unchanged": true,
+  "fleet_healthy_after": true,
+  "memory_after": {
+    "vm_stat": {
+      "exit": 0,
+      "stdout": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                   547402.\nPages active:                                 669523.\nPages inactive:                               579380.\nPages speculative:                             88926.\nPages throttled:                                   0.\nPages wired down:                             234871.\nPages purgeable:                                   2.\n\"Translation faults\":                     1517437482.\nPages copy-on-write:                       142872203.\nPages zero filled:                         524391165.\nPages reactivated:                           8180669.\nPages purged:                                4108740.\nFile-backed pages:                            861186.\nAnonymous pages:                              476643.\nPages stored in compressor:                  4265191.\nPages occupied by compressor:                2025258.\nDecompressions:                             20019167.\nCompressions:                               29826546.\nPageins:                                    46219747.\nPageouts:                                     146371.\nSwapins:                                      137537.\nSwapouts:                                     661008.\n",
+      "stderr": ""
+    },
+    "pressure": {
+      "exit": 0,
+      "stdout": "The system has 68719476736 (4194304 pages with a page size of 16384).\nSystem-wide memory free percentage: 45%\n",
+      "stderr": ""
+    }
+  },
+  "passed": true,
+  "dependency_versions": {
+    "transformers": "5.19.0",
+    "torch": "2.14.1",
+    "torchvision": "0.29.1",
+    "huggingface-hub": "2.2.0",
+    "Pillow": "12.3.0",
+    "soundfile": "0.14.0"
+  },
+  "rss_unit": "KiB from macOS ps; excludes separately accounted MPS allocations and is not total model memory",
+  "source_import": "PYTHONPATH=checkout; serve_model.py inserts checkout into sys.path; existing optional dependencies, no installation or download in this run"
+}

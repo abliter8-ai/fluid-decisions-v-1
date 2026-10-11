@@ -1,0 +1,7 @@
+# Trace-set measurement parameters (IP-005). Uncalibrated.
+calibration: uncalibrated
+latency:
+  p95_factor: 1.5
+repeats:
+  warm: 1
+window_sizes: [12000, 6000, 3000, 1500]

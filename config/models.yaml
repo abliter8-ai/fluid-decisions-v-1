@@ -1,0 +1,15 @@
+models:
+  d1-3B:
+    repo: LiquidAI/d1-3B
+    revision: 051bcc464b01b9f92942b364d9586b0ef5912432
+    modalities: [text, image]
+    port: 8774
+    upstream: https://huggingface.co/LiquidAI/d1-3B
+    license: https://huggingface.co/LiquidAI/d1-3B/blob/main/LICENSE
+  d1-omni-600M:
+    repo: LiquidAI/d1-omni-600M
+    revision: 02b55d7076f15129e59ab3f94783f32c4b088674
+    modalities: [text, image, audio]
+    port: 8775
+    upstream: https://huggingface.co/LiquidAI/d1-omni-600M
+    license: https://huggingface.co/LiquidAI/d1-omni-600M/blob/main/LICENSE

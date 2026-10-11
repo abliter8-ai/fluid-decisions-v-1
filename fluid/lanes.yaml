@@ -1,0 +1,8 @@
+# Portable defaults. Override with FLUID_LANES_FILE or FD_*_URL.
+lanes:
+  max:
+    url: http://127.0.0.1:8774
+    modalities: [text, image]
+  omni:
+    url: http://127.0.0.1:8775
+    modalities: [text, image, audio]

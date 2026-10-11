@@ -1,0 +1,90 @@
+{
+  "note": "IP-011 live ownership smoke against the d1 text lane; verdicts, ownership-relevant reasons and per-target facts only, no machine paths",
+  "steps": [
+    {
+      "step": "create_mkdir",
+      "verdict": "allow",
+      "reasons": [],
+      "target_facts": [
+        {
+          "created_this_session": null,
+          "under_scratch": null,
+          "tracked": null,
+          "outside_workdir": null,
+          "catastrophic": null
+        }
+      ],
+      "lane": "max"
+    },
+    {
+      "step": "create_write_file",
+      "verdict": "allow",
+      "reasons": [],
+      "target_facts": [
+        {
+          "created_this_session": null,
+          "under_scratch": null,
+          "tracked": null,
+          "outside_workdir": null,
+          "catastrophic": null
+        }
+      ],
+      "lane": "max"
+    },
+    {
+      "step": "owned_delete_dir",
+      "verdict": "allow",
+      "reasons": [
+        "risk_at_or_above_ask:privilege",
+        "user_requested_softened_ask",
+        "owned_scratch_delete"
+      ],
+      "target_facts": [
+        {
+          "created_this_session": true,
+          "under_scratch": false,
+          "tracked": false,
+          "outside_workdir": false,
+          "catastrophic": false
+        }
+      ],
+      "lane": "max"
+    },
+    {
+      "step": "tracked_delete_readme",
+      "verdict": "ask",
+      "reasons": [
+        "risk_at_or_above_deny:destructive",
+        "authorized_softened_deny",
+        "delete_of_tracked_path"
+      ],
+      "target_facts": [
+        {
+          "created_this_session": false,
+          "under_scratch": false,
+          "tracked": true,
+          "outside_workdir": false,
+          "catastrophic": false
+        }
+      ],
+      "lane": "max"
+    },
+    {
+      "step": "catastrophic_rm_root",
+      "verdict": "deny",
+      "reasons": [
+        "catastrophic removal"
+      ],
+      "target_facts": [
+        {
+          "created_this_session": null,
+          "under_scratch": null,
+          "tracked": null,
+          "outside_workdir": null,
+          "catastrophic": null
+        }
+      ],
+      "lane": null
+    }
+  ]
+}

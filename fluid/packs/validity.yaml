@@ -1,0 +1,36 @@
+version: "0.1.0"
+# Document validity (IP-009 / IDEA-002). One state (the packet), one noul per
+# spec check, one document_type choice (spec.types plus an always-present unknown),
+# one completeness score (spec.completeness_levels). The service builds the per-
+# check questions from the spec with the instruction templates below; policy
+# composes the verdict in evaluate_validity. Validity is NOT support: a valid
+# verdict says the form is filled, nothing more. Lines are uncalibrated.
+questions:
+  # Templates only; the service instantiates one check.<id> question per spec check
+  # and injects the spec's own criteria into document_type and completeness.
+  check: {type: noul, instructions: "Does the packet satisfy this requirement?"}
+  document_type: {type: choice, instructions: "What type of document is this packet?"}
+  completeness: {type: score, instructions: "How complete is this packet?"}
+policy:
+  calibration: uncalibrated
+  budget:
+    calibration: uncalibrated
+    budget_margin: 2.0
+    max_budget_s: 30
+    floor_s: 2.0
+  unknown_type: unknown
+  # A packet whose single request exceeds budget is split into page-sized text
+  # chunks for the per-check nouls only, composed by maximum (IP-009).
+  max_page_chars: 12000
+  check_instruction: "Does the packet satisfy this requirement: {rule}"
+  document_type_instruction: "What type of document is this packet?"
+  completeness_instruction: "How complete is this packet?"
+  validity_is_not_support: "validity is not support"
+  lines:
+    # a check holds at or above pass_line, fails below fail_line, else uncertain;
+    # an uncertain or low-decisiveness check makes the packet ask; the document
+    # type abstains when it is unknown or its top probability is below type_line.
+    pass_line: 0.70
+    fail_line: 0.30
+    min_decisiveness: 0.40
+    type_line: 0.50
