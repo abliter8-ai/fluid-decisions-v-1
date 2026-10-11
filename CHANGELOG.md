@@ -17,6 +17,12 @@ log of real sessions exists to calibrate them.
   an operator's withhold policy for unscored results) and the fail-closed path on
   a post-result exception both passed the raw text through. Both now withhold,
   with reasons `post_result_ask:<reasons>` and `post_result_error:<type>`.
+- **File-ownership exemption applied without a working directory.** With no
+  `cwd`, a recursive delete under a scratch root was exempted from the recursive
+  static deny — on Linux the system temporary directory is `/tmp`, so
+  `rm -rf /tmp/...` from the hook or MCP reached the model instead of being
+  denied, contrary to IP-011's rule that the exemption needs a `cwd`. It now
+  never applies without one.
 - **CI failed at test collection on every push.** Bare `pytest` could not import
   `scripts` and `harness`; `pythonpath = ["."]` in the pytest configuration makes
   `pytest` and `python -m pytest` agree. Behind that, the workflow set the lane

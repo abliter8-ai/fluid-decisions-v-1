@@ -267,3 +267,22 @@ def test_twelve_ownership_fixtures(sandbox):
     recorded = json.loads((Path(__file__).resolve().parents[1] / "docs" / "ownership-fixtures.json")
                           .read_text())["fixtures"]
     assert {k: v["verdict"] for k, v in recorded.items()} == expected
+
+
+def test_no_cwd_never_exempts_a_recursive_delete_under_scratch(tmp_path, monkeypatch):
+    # Post-release fix: with no working directory the exemption must not apply,
+    # even when the target sits under a scratch root (on Linux the system temp
+    # directory is /tmp, so `rm -rf /tmp/x` with no cwd was being exempted).
+    scratch = tmp_path / "scratch"
+    scratch.mkdir()
+    monkeypatch.setenv("FLUID_SCRATCH_DIRS", str(scratch))
+    tool_input = {"command": f"rm -rf {scratch / 'x'}"}
+    without_cwd = ownership.compute("run_shell", tool_input, SANDBOX_POLICY, cwd=None, created_paths=set())
+    assert without_cwd["targets"][0]["under_scratch"] is True
+    assert ownership.owned_targets(without_cwd) is False
+    denied = static_denial("run_shell", tool_input, SANDBOX_POLICY, without_cwd)
+    assert denied and denied["rule"] == "recursive_force_remove"
+    # with a cwd the same scratch target is owned and exempt
+    with_cwd = ownership.compute("run_shell", tool_input, SANDBOX_POLICY, cwd=str(tmp_path), created_paths=set())
+    assert ownership.owned_targets(with_cwd) is True
+    assert static_denial("run_shell", tool_input, SANDBOX_POLICY, with_cwd) is None

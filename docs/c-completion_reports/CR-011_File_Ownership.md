@@ -65,3 +65,7 @@ Verified at `d86e37c`.
 - **Privacy** of the added lines checked.
 
 Nothing was installed or configured on the Mac by this verification.
+
+## Post-release fix (after v0.1.0)
+
+CI on a Linux runner exposed a defect that the macOS runs hid: `owned_targets` did not check for a working directory, so with no `cwd` a recursive delete whose target lay under a scratch root was exempted from the recursive static deny. On Linux the system temporary directory is `/tmp`, so `rm -rf /tmp/example` from the hook or MCP reached the model instead of being denied — contrary to this plan's rule that the exemption applies only when a `cwd` is passed. `owned_targets` now returns false without one. Test: `tests/test_ownership.py::test_no_cwd_never_exempts_a_recursive_delete_under_scratch`; the offline suite passes with the temporary directory at its macOS default and at `/tmp`.

@@ -313,8 +313,13 @@ def compute(tool_name: str, tool_input: dict[str, Any], policy: dict[str, Any], 
 def owned_targets(ownership: dict[str, Any] | None) -> bool:
     """True when every delete target was created this session or lies under a
     scratch root, none is tracked by git, and none is catastrophic — the condition
-    that exempts the recursive static rules (IP-011 §4)."""
+    that exempts the recursive static rules (IP-011 §4). Never true without a
+    working directory: with no ``cwd`` the exemption does not apply, so the hook
+    and MCP keep the static deny until they pass one (a scratch root such as the
+    system temp directory does not by itself make a target owned)."""
     if not isinstance(ownership, dict) or not ownership.get("enabled"):
+        return False
+    if ownership.get("cwd") is None:
         return False
     targets = ownership.get("targets")
     if not isinstance(targets, list) or not targets:
