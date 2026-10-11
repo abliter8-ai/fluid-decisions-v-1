@@ -51,9 +51,18 @@ The existing private repository `abliter8-ai/fluid-decisions` is the archive; it
 - README quickstart/harness commands are written against a loopback proxy with env-var names only. ✓
 - Not performed here: flipping the new repository to public (the maintainer's UI click after review).
 
+## Addendum — post-release documentation corrections (2026-10-11)
+
+After the initial single-commit release, the maintainer corrected two documentation points and asked for them in the repository that will go public:
+
+- **d1-omni-600M** was mischaracterised as a short-audio endpoint. It is a smaller (~0.6B) multimodal **decision** model (HF tags `decision`, `system-one`, `multimodal`, `vision`, `audio`) doing the same decision task as d1-3B over text and images, plus audio, at a smaller footprint; the client routes audio to it because d1-3B is text and image only. Corrected in the README and the self-hosting guide.
+- **The guard-vs-LLM-judge comparison (CR-008)** was not surfaced. The README now states it: on par with an independent `claude-haiku-5-5` judge at blocking the attack, at ~3× faster per scorer call, ~17× fewer tokens and ~10× fewer calls, preserving task utility by unit redaction; plus an explicitly-labelled inference that a self-hosted LLM classifier (the realistic local alternative to a non-self-hostable Haiku) would be larger, slower and no safer, so d1 is a strong local guard.
+
+These doc commits were applied to the archive `main` and mirrored into the new repository, each by the neutral identity `Repository Automation <automation@example.invalid>`. The new repository's history is therefore a small number of commits, **all by the neutral identity**; the identifier scan over its whole history (diff, messages, authors/committers) remains **zero in every class**. The annotated tag `v0.1.0` was re-cut to point at the corrected `main`, and the source distribution and wheel were rebuilt from the corrected tree (the wheel metadata carries the corrected README) and re-attached to the release; the install-test (`fluid --help`, `fluid health` graceful, hook static-deny with no lane) passes on the rebuilt wheel. The repository stays private; the public flip remains the maintainer's.
+
 ## Commit
 
-This report on the archive `main`. The release artifacts and the single-commit history are on `abliter8-ai/fluid-decisions-v-1`. The verifier verifies by cloning the new repository fresh, re-running the scan over its whole history, and installing the released wheel.
+This report on the archive `main`. The release artifacts and the new-repository history are on `abliter8-ai/fluid-decisions-v-1`. The verifier re-verifies by cloning the new repository fresh, re-running the scan over its whole history, and installing the released wheel.
 
 ## Second verification (designated verifier, 2026-10-11)
 
