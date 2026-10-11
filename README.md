@@ -90,7 +90,7 @@ The setup is **download a model → start its decision API → configure Fluid D
 | Model | Role | Upstream |
 | --- | --- | --- |
 | **d1-3B** | Default for text and image workflows. The core workflow can run with this model alone. | [Model and loading instructions](https://huggingface.co/LiquidAI/d1-3B) |
-| **d1-omni-600M** | Optional endpoint for short audio inputs. Audio and images are kept in separate requests. | [Model and loading instructions](https://huggingface.co/LiquidAI/d1-omni-600M) |
+| **d1-omni-600M** | A smaller (~0.6B) multimodal decision model: the same system-one decision task as d1-3B over text and images, **plus audio**, for when a smaller memory footprint matters. The client routes audio here because d1-3B is text and image only; image and audio stay in separate requests (a combined request is rejected). | [Model and loading instructions](https://huggingface.co/LiquidAI/d1-omni-600M) |
 
 Serve the models on your own hardware or connect to compatible endpoints you control. Public defaults use localhost. The client, CLI, hook and MCP have no PyTorch dependency; install the optional `serve` extra in the model-serving environment.
 

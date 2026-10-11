@@ -25,7 +25,7 @@ Start with d1-3B for text and images:
 
 This downloads the weights, tokenizer, configuration and upstream Python code into `models/d1-3B`, and writes `models/models-manifest.json`. Downloading does not import that code or start a service. Existing complete files are reused; interrupted transfers can be resumed by repeating the command.
 
-Optional short audio support:
+Optional smaller multimodal model — d1-omni-600M does the same decision task as d1-3B over text and images at a smaller (~0.6B) footprint and adds audio:
 
 ```sh
 .venv/bin/python scripts/download_models.py d1-omni-600M --local-dir models
